@@ -55,7 +55,6 @@ class csvreader(object):
         for x in rand_indices[0:train_n]:
             url = keys[x]
             boxes = images[url]
-            #print(boxes)
             imagenum = self.crop_image(url, boxes, data_dir, imagenum)
         data_dir = "./test/"
         for x in rand_indices[train_n:train_n+test_n]:
@@ -67,7 +66,10 @@ class csvreader(object):
         print(self.weed_imgs)
 
     def crop_image(self, url, boxes, data_dir, imagenum):
-            #sorted_boxes = 
+            def get_top_y(elem):
+                return elem['ys']['top']
+
+            boxes.sort(key=get_top_y)
             response = requests.get(url)
             im = Image.open(BytesIO(response.content))
             w, h = im.size
@@ -87,7 +89,6 @@ class csvreader(object):
                     croppedim.save(imageName)
                     is_weed, boxes = weed_image(curr_x, curr_y, boxes)
                     if is_weed:
-                        print( 'YES: ' + imageName)
                         self.weed_imgs.add(imageName)
                     imagenum+=1
                     curr_x += IMAGE_SIZE
@@ -104,17 +105,26 @@ def weed_image(x, y, box_dict):
         return False
 
     #range_imgs = []
-    for box in box_dict:
-	#if ((y + IMAGE_SZIE) > box['ys']['top']):
-        #    return False, box_dict
+    i = 0
+    while i < len(box_dict):
+        box = box_dict[i]
+        
+        if (y > box['ys']['bottom']):
+            # cropping loop has passed the portion of the pic that this box includes
+            box_dict.pop(i)
+            continue
+        if ((y + IMAGE_SIZE) < box['ys']['top']):
+            # cropping loop has not begun examining the portion of the pic this box includes
+            break
+
         if ((y <= box['ys']['bottom'] and y >= box['ys']['top'])):
             if x_within_img_range(x, box['xs']['left'], box['xs']['right']):
                 return True, box_dict
         if (((y + IMAGE_SIZE) <= box['ys']['bottom'] and (y + IMAGE_SIZE) >= box['ys']['top'])):
             if x_within_img_range(x, box['xs']['left'], box['xs']['right']):
                 return True, box_dict
+        i += 1
     # add corner identification and sorted boxes
-    #print ("HERE")
     return False, box_dict
 
 def main():
