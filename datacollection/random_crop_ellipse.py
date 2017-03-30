@@ -122,6 +122,8 @@ def weed_image(x, y, box_dict):
         return False
 
     def x_y_within_ellipse(x, y, box):
+        x_right = x + 298
+        y_bottom = y + 298
         xs = box['xs']
         ys = box['ys']
         b = (float(xs['right'] - xs['left']))/2
@@ -129,8 +131,10 @@ def weed_image(x, y, box_dict):
         h = xs['left'] + b 
         k = ys['top'] + a
 
-        if ((float((x-h)*(x-h))/(b*b) + float((y-k)*(y-k))/(a*a)) <= 1):
-            return True
+	coords = [[x,y], [x_right, y], [x_right, y_bottom], [x, y_bottom]]
+	for c in coords:
+            if ((float((c[0]-h)*(c[0]-h))/(b*b) + float((c[1]-k)*(c[1]-k))/(a*a)) <= 1):
+                return True
         return False
         
     in_trimmed = False
