@@ -15,6 +15,7 @@ urls_dict = {
     "./data/test/": [],
     "./data/train/": [],
     "./data/validate/": [],
+    "./data/test_without_grey/":[]
 }
 
 class csvreader(object):
@@ -65,8 +66,11 @@ class csvreader(object):
         #    url = keys[x]
         #    boxes = images[url]
         #    imagenum = self.crop_image(url, boxes, data_dir, imagenum)
-        data_dir = "./data/validate/"
+        data_dir = "./data/test_without_grey/"
+	i = 0
         for x in rand_indices[0:500]:#train_n+test_n:train_n+test_n+valid_n]:
+	    print(i)
+	    i += 1
             url = keys[x]
             boxes = images[url]
             imagenum = self.crop_image(url, boxes, data_dir, imagenum)

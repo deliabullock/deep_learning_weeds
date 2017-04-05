@@ -29,7 +29,7 @@ def green_pic(img):
 			if green_square(colors):
 				num_green += 1
 #			print (col_one + " " + col_two)
-	if num_green  >= (X_/16):
+	if num_green  >= 10:
 		return True
 	return False
 
@@ -40,9 +40,11 @@ def green_square(colors):
 		color = get_colour_name(pixel[1])[1]
 		if 'green' in color:
 			green_pixels += pixel[0]
+		elif 'grey' in color:
+			continue
 		else:
 			nongreen_pixels += pixel[0]
-	if green_pixels > 2*nongreen_pixels: 
+	if green_pixels > nongreen_pixels: 
 		return True
 	return False
 
