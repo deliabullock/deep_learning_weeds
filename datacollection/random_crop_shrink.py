@@ -46,33 +46,36 @@ class csvreader(object):
         
         rand_indices = np.arange(len(keys))
         np.random.shuffle(rand_indices)
-        data_dir = "./data/train/"
+        data_dir = "./data/shrunk/"
         imagenum = 0
-        for x in rand_indices[0:train_n]:
-            print ("x: " + str(x))
+	i = 0
+        for x in rand_indices[0:500]:#train_n]:
+            print ("x: " + str(i))
+	    i += 1
             url = keys[x]
             boxes = images[url]
             imagenum = self.crop_image(url, boxes, data_dir, imagenum)
-        data_dir = "./data/test/"
-        for x in rand_indices[train_n:train_n+test_n]:
-            url = keys[x]
-            boxes = images[url]
-            imagenum = self.crop_image(url, boxes, data_dir, imagenum)
-        data_dir = "./data/validate/"
-        for x in rand_indices[train_n+test_n:train_n+test_n+valid_n]:
-            url = keys[x]
-            boxes = images[url]
-            imagenum = self.crop_image(url, boxes, data_dir, imagenum)
-        data_dir = "./data/train/"
-        for x in rand_indices[train_n+test_n+valid_n:]:
-            url = keys[x]
-            boxes = images[url]
-            imagenum = self.crop_image(url, boxes, data_dir, imagenum)
-        
-
+        #data_dir = "./data/test/"
+        #for x in rand_indices[train_n:train_n+test_n]:
+        #    url = keys[x]
+        #    boxes = images[url]
+        #    imagenum = self.crop_image(url, boxes, data_dir, imagenum)
+        #data_dir = "./data/validate/"
+      #   for x in rand_indices[train_n+test_n:train_n+test_n+valid_n]:
+      #       url = keys[x]
+      #       boxes = images[url]
+      #       imagenum = self.crop_image(url, boxes, data_dir, imagenum)
+      #   data_dir = "./data/train/"
+      #   for x in rand_indices[train_n+test_n+valid_n:]:
+       #      url = keys[x]
+       #      boxes = images[url]
+       #      imagenum = self.crop_image(url, boxes, data_dir, imagenum)
+       #  
+       #
     def crop_image(self, url, boxes, data_dir, imagenum):
             weed_dir = "weeds/"
             nonweed_dir = "nonweeds/"
+            trimmed_dir = "trimmed/"
             def get_top_y(elem):
                 return elem['ys']['top']
 
@@ -93,8 +96,10 @@ class csvreader(object):
                     croppedim = im.crop((curr_x, curr_y, curr_x + 298, curr_y + 298))
                     is_weed = weed_image(curr_x, curr_y, boxes)
                     class_dir = nonweed_dir
-                    if is_weed:
+                    if is_weed == 1:
                         class_dir = weed_dir
+                    elif is_weed == -1:
+                        class_dir = trimmed_dir
                     imageName = data_dir + class_dir + 'img'+str(imagenum)+'.jpg'
                     croppedim.save(imageName)
                     imagenum+=1
@@ -112,31 +117,40 @@ def weed_image(x, y, box_dict):
         return False
 
     i = 0
+    trimmed = False
     while i < len(box_dict):
         box = box_dict[i]
         
         offsety = int((box['ys']['bottom']-box['ys']['top'])*.10)
         offsetx = int((box['xs']['right']-box['xs']['left'])*.10)
 
-        if (y > box['ys']['bottom']-offsety):
+        if (y > box['ys']['bottom']):
             # cropping loop has passed the portion of the pic that this box includes
             #box_dict.pop(i)
             i += 1
             continue
-        if ((y + IMAGE_SIZE) < box['ys']['top']+offsety):
+        if ((y + IMAGE_SIZE) < box['ys']['top']):
             # cropping loop has not begun examining the portion of the pic this box includes
             i += 1
             break
 
         if ((y <= box['ys']['bottom']-offsety and y >= box['ys']['top']+offsety)):
             if x_within_img_range(x, box['xs']['left']+offsetx, box['xs']['right']-offsetx):
-                return True #, box_dict
+                return 1 #, box_dict
         if (((y + IMAGE_SIZE) <= box['ys']['bottom']-offsety and (y + IMAGE_SIZE) >= box['ys']['top']+offsety)):
             if x_within_img_range(x, box['xs']['left']+offsetx, box['xs']['right']-offsetx):
-                return True #, box_dict
+                return 1 #, box_dict
+        if ((y <= box['ys']['bottom'] and y >= box['ys']['top'])):
+            if x_within_img_range(x, box['xs']['left'], box['xs']['right']):
+                trimmed = True #, box_dict
+        if (((y + IMAGE_SIZE) <= box['ys']['bottom'] and (y + IMAGE_SIZE) >= box['ys']['top'])):
+            if x_within_img_range(x, box['xs']['left'], box['xs']['right']):
+                trimmed = True #, box_dict
         i += 1
     # add corner identification and sorted boxes
-    return False #, box_dict
+    if trimmed:
+	return -1
+    return 0 #, box_dict
 
 def main():
     c = csvreader('Batch_2667541_batch_results.csv')
