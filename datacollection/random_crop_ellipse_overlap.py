@@ -15,7 +15,6 @@ urls_dict = {
     "./data/test/": [],
     "./data/train/": [],
     "./data/validate/": [],
-    "./data/test_without_grey/":[]
 }
 
 class csvreader(object):
@@ -56,29 +55,34 @@ class csvreader(object):
         np.random.shuffle(rand_indices)
         data_dir = "./data/train/"
         imagenum = 0
-        #for x in rand_indices[0:train_n]:
-        #    print ("x: " + str(x))
-        #    url = keys[x]
-        #    boxes = images[url]
-        #    imagenum = self.crop_image(url, boxes, data_dir, imagenum)
-        #data_dir = "./data/test/"
-        #for x in rand_indices[0:500]: #train_n:train_n+test_n]:
-        #    url = keys[x]
-        #    boxes = images[url]
-        #    imagenum = self.crop_image(url, boxes, data_dir, imagenum)
-        data_dir = "./data/test_without_grey/"
 	i = 0
-        for x in rand_indices[0:500]:#train_n+test_n:train_n+test_n+valid_n]:
+        for x in rand_indices[0:train_n]:
+	    print(i)
+	    i += 1
+            url = keys[x]
+            boxes = images[url]
+            imagenum = self.crop_image(url, boxes, data_dir, imagenum)
+        data_dir = "./data/test/"
+        for x in rand_indices[train_n:train_n+test_n]:
+	    print(i)
+	    i += 1
+            url = keys[x]
+            boxes = images[url]
+            imagenum = self.crop_image(url, boxes, data_dir, imagenum)
+        data_dir = "./data/validate/"
+        for x in rand_indices[train_n+test_n:train_n+test_n+valid_n]:
 	    print(i)
 	    i += 1
             url = keys[x]
             boxes = images[url]
             imagenum = self.crop_image(url, boxes, data_dir, imagenum)
         data_dir = "./data/train/"
-        #for x in rand_indices[train_n+test_n+valid_n:]:
-        #    url = keys[x]
-        #    boxes = images[url]
-        #    imagenum = self.crop_image(url, boxes, data_dir, imagenum)
+        for x in rand_indices[train_n+test_n+valid_n:]:
+	    print(i)
+	    i += 1
+            url = keys[x]
+            boxes = images[url]
+            imagenum = self.crop_image(url, boxes, data_dir, imagenum)
         
 
     def crop_image(self, url, boxes, data_dir, imagenum):
