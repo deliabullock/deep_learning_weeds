@@ -11,11 +11,11 @@ from green_pic import green_pic
 
 IMAGE_SIZE = 299
 
-urls_dict = {
+'''urls_dict = {
     "./data/test/": [],
     "./data/train/": [],
     "./data/validate/": [],
-}
+}'''
 
 class csvreader(object):
     def __init__(self, filename):
@@ -54,7 +54,12 @@ class csvreader(object):
         rand_indices = np.arange(len(keys))
         np.random.shuffle(rand_indices)
         data_dir = "./data/train/"
-        imagenum = 0
+        
+    	rand_file = open('./data/URLs.pkl', 'wb')
+    	pickle.dump(rand_indices, rand_file)
+    	rand_file.close()
+
+	imagenum = 0
 	i = 0
         for x in rand_indices[0:train_n]:
 	    print(i)
@@ -63,6 +68,7 @@ class csvreader(object):
             boxes = images[url]
             imagenum = self.crop_image(url, boxes, data_dir, imagenum)
         data_dir = "./data/test/"
+	print(data_dir)
         for x in rand_indices[train_n:train_n+test_n]:
 	    print(i)
 	    i += 1
@@ -70,6 +76,7 @@ class csvreader(object):
             boxes = images[url]
             imagenum = self.crop_image(url, boxes, data_dir, imagenum)
         data_dir = "./data/validate/"
+	print(data_dir)
         for x in rand_indices[train_n+test_n:train_n+test_n+valid_n]:
 	    print(i)
 	    i += 1
@@ -77,6 +84,7 @@ class csvreader(object):
             boxes = images[url]
             imagenum = self.crop_image(url, boxes, data_dir, imagenum)
         data_dir = "./data/train/"
+	print(data_dir)
         for x in rand_indices[train_n+test_n+valid_n:]:
 	    print(i)
 	    i += 1
@@ -100,6 +108,7 @@ class csvreader(object):
             w, h = im.size
             rand_x = random.randrange(w)
             rand_y = random.randrange(h)
+	    print('('+url+', '+str(rand_x)+', '+str(rand_y)+')')
             x_start = rand_x % IMAGE_SIZE
             num_colu = int((w-x_start)/IMAGE_SIZE)
             y_start = rand_y % IMAGE_SIZE
@@ -123,7 +132,11 @@ class csvreader(object):
                     imagenum+=1
                     curr_x += IMAGE_SIZE
                 curr_y += IMAGE_SIZE
-            urls_dict[data_dir].append([url, rand_x, rand_y])
+            #urls_dict[data_dir].append([url, rand_x, rand_y])
+            #data = (data_dir, url, rand_x, rand_y) 
+	    #f = open('./data/URLs.pkl', 'ab')
+    	    #pickle.dump(data, f)
+    	    #f.close()
             return imagenum
 
 def weed_image(x, y, box_dict):
@@ -258,8 +271,8 @@ def find_box_overlaps(boxes_orig):
 def main():
     c = csvreader('Batch_2667541_batch_results.csv')
     c.readcsv()
-    params_file = open('./data/URLs.pkl', 'wb')
-    pickle.dump(urls_dict, params_file)
-    params_file.close()
+    #params_file = open('./data/URLs.pkl', 'wb')
+    #pickle.dump(urls_dict, params_file)
+    #params_file.close()
             
 if  __name__ =='__main__':main()
