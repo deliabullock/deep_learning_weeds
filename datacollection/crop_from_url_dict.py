@@ -43,8 +43,6 @@ class csvreader(object):
 
         
         keys = list(images.keys())
-	print (keys)
-	return
         max_img_processed = len(keys)
         train_n = int(max_img_processed*self.train_percent)
         test_n = int(max_img_processed*self.test_percent)
@@ -67,6 +65,10 @@ class csvreader(object):
 	i = 0
         for x in rand_indices[:train_n]:
 	    print("train: " + str(i))
+            if i == 33:
+		imagenum = 8020
+		i = 34
+		continue
 	    i += 1
             url = keys[x]
             rand_x, rand_y = get_rands(url, train_urls)
