@@ -61,7 +61,7 @@ class csvreader(object):
 
 	imagenum = 0
 	i = 0
-        for x in rand_indices[0:train_n]:
+        for x in rand_indices[:train_n]:
 	    print(i)
 	    i += 1
             url = keys[x]
