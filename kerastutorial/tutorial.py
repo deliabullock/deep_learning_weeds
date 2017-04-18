@@ -29,7 +29,7 @@ model.add(Dense(1))
 
 print ("Compile model")
 # Compile model
-epochs = 2#50 ###HERE
+epochs = 50#2 ###HERE
 lrate = 0.01 ### HERE
 decay = lrate/epochs
 sgd = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
@@ -44,19 +44,19 @@ test_datagen = ImageDataGenerator(rescale=1./255)
 train_generator = train_datagen.flow_from_directory(
         '../datacollection/data_2/train',
         target_size=(299, 299),
-        batch_size=16#32,
+        batch_size=32,#16,
         class_mode='binary')
 
 validation_generator = valid_datagen.flow_from_directory(
         '../datacollection/data_2/validate',
         target_size=(299, 299),
-        batch_size=16#32,
+        batch_size=32,#16,
         class_mode='binary')
 
 test_generator = test_datagen.flow_from_directory(
         '../datacollection/data_2/test',
         target_size=(299, 299),
-        batch_size=16#32,
+        batch_size=32,#16,
         class_mode='binary')
 
 print ("fit model")
@@ -71,5 +71,5 @@ print ("Scoring")
 print (model.evaluate_generator(
         test_generator,
        	100)) #### fix
-
+print(model.metrics_names)
 
