@@ -14,6 +14,17 @@ train_nums = pickle.load(open('./data/train_urls.pkl'))
 test_nums = pickle.load(open('./data/test_urls.pkl'))
 val_nums = pickle.load(open('./data/validate_urls.pkl'))
 
+train_clean = pickle.load(open('./data/remake_data/clean_data/train_clean_urls.pkl'))
+test_clean = pickle.load(open('./data/remake_data/clean_data/test_clean_urls.pkl'))
+val_clean = pickle.load(open('./data/remake_data/clean_data/validate_clean_urls.pkl'))
+train_clean_del = train_clean[0]
+train_clean_kept = train_clean[1]
+test_clean_del = test_clean[0]
+test_clean_kept = test_clean[1]
+val_clean_del = val_clean[0]
+val_clean_kept = val_clean[1]
+
+
 class csvreader(object):
     def __init__(self, filename):
         self.filename = filename
@@ -116,7 +127,7 @@ class csvreader(object):
                 curr_x = x_start
                 for n in range(num_colu):
                     croppedim = im.crop((curr_x, curr_y, curr_x + 298, curr_y + 298))
-                    class_dir = get_class_dir(data_dir, 'img'+str(imagenum)+'.jpg')
+                    class_dir = get_class_dir(data_dir, 'img'+str(imagenum)+'.jpg', imagenum)
                     imageName = data_dir + class_dir + 'img'+str(imagenum)+'.jpg'
                     croppedim.save(imageName)
                     imagenum+=1
@@ -129,34 +140,89 @@ def get_rands(url, url_set):
 		if x[0] == url:
 			return x[1], x[2]
 
-def get_class_dir(data_dir, img):
+def get_class_dir(data_dir, img, num):
 	if data_dir  == "./data/train/":
 		if img in train_nums[0]:
+			if img in train_clean_del['nonweeds']:
+				return "weeds/"
+			if num > 16800:
+				return 'del/'
 			return "nonweeds/"
 		if img in train_nums[1]:
-			return "weeds/"
+			if img in train_clean_del['weeds']:
+				return "nonweeds/"
+			if img in train_clean_kept['weeds']:
+				return "weeds/"
+			print ("Train weeds: " + img)
+			return "del/"
 		if img in train_nums[2]:
-			return "not_green/"
+			if img in train_clean_del['not_green']:
+				return "weeds/"
+			if img in train_clean_kept['not_green']:
+				return "nonweeds/"
+			print ("Train not_green: " + img)
+			return "del/"
 		if img in train_nums[3]:
-			return "trimmed/"
+			if img in train_clean_del['trimmed']:
+				return "weeds/"
+			if num > 6886:
+				return 'del/'
+			if img in train_clean_kept['trimmed']:
+				return "nonweeds/"
+			print ("Train trimmed: " + img)
+			return "del/"
 	if data_dir  == "./data/validate/":
 		if img in val_nums[0]:
+			if img in val_clean_del['nonweeds']:
+				return "weeds/"
 			return "nonweeds/"
 		if img in val_nums[1]:
-			return "weeds/"
+			if img in val_clean_del['weeds']:
+				return "nonweeds/"
+			if img in val_clean_kept['weeds']:
+				return "weeds/"
+			print ("Val weeds: " + img)
+			return "del/"
 		if img in val_nums[2]:
-			return "not_green/"
+			if img in val_clean_del['not_green']:
+				return "weeds/"
+			if img in val_clean_kept['not_green']:
+				return "nonweeds/"
+			print ("Val not_green: " + img)
+			return "del/"
 		if img in val_nums[3]:
-			return "trimmed/"
+			if img in val_clean_del['trimmed']:
+				return "weeds/"
+			if img in val_clean_kept['trimmed']:
+				return "nonweeds/"
+			print ("Val trimmed: " + img)
+			return "del/"
 	if data_dir  == "./data/test/":
 		if img in test_nums[0]:
+			if img in test_clean_del['nonweeds']:
+				return "weeds/"
 			return "nonweeds/"
 		if img in test_nums[1]:
-			return "weeds/"
+			if img in test_clean_del['weeds']:
+				return "nonweeds/"
+			if img in test_clean_kept['weeds']:
+				return "weeds/"
+			print ("Test weeds: " + img)
+			return "del/"
 		if img in test_nums[2]:
-			return "not_green/"
+			if img in test_clean_del['not_green']:
+				return "weeds/"
+			if img in test_clean_kept['not_green']:
+				return "nonweeds/"
+			print ("Test not_green: " + img)
+			return "del/"
 		if img in test_nums[3]:
-			return "trimmed/"
+			if img in test_clean_del['trimmed']:
+				return "weeds/"
+			if img in test_clean_kept['trimmed']:
+				return "nonweeds/"
+			print ("Test trimmed: " + img)
+			return "del/"
         print ("image num: " + str(imagenum))
 
 def main():
