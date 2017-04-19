@@ -12,11 +12,11 @@ from green_pic import green_pic
 IMAGE_SIZE = 299
 train_nums = pickle.load(open('./data/train_urls.pkl'))
 test_nums = pickle.load(open('./data/test_urls.pkl'))
-val_nums = pickle.load(open('./data/val_urls.pkl'))
+val_nums = pickle.load(open('./data/validate_urls.pkl'))
 
 train_clean = pickle.load(open('./data/remake_data/clean_data/train_clean_urls.pkl'))
 test_clean = pickle.load(open('./data/remake_data/clean_data/test_clean_urls.pkl'))
-val_clean = pickle.load(open('./data/remake_data/clean_data/validate_clean_urls.pkl'))
+val_clean = pickle.load(open('./data/remake_data/clean_data/val_clean_urls.pkl'))
 train_clean_del = train_clean[0]
 train_clean_kept = train_clean[1]
 test_clean_del = test_clean[0]
