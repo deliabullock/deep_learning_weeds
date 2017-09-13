@@ -32,6 +32,7 @@ class csvreader(object):
         self.test_percent = 0.15
         self.validate_percent = 0.15	
         self.img_size = 299	
+	self.test_pictures = []
 
     def readcsv(self):
 	
@@ -105,8 +106,8 @@ class csvreader(object):
             url = keys[x]
             rand_x, rand_y = get_rands(url, extra_urls)
             imagenum = self.crop_image(url, data_dir, imagenum, rand_x, rand_y)
-        
-
+	pickle.dump( self.test_pictures, open( "./data/test_picture_info.p", "wb" ) )
+    
     def crop_image(self, url, data_dir, imagenum, rand_x, rand_y):
             weed_dir = "weeds/"
             nonweed_dir = "nonweeds/"
@@ -123,6 +124,12 @@ class csvreader(object):
             y_start = rand_y % IMAGE_SIZE
             num_rows = int((h-y_start)/IMAGE_SIZE)
             curr_y = y_start
+
+	    picture_info = {
+            	"url": url,
+                "weeds": {},
+                "nonweeds": {}
+	    }
             for r in range(num_rows):
                 curr_x = x_start
                 for n in range(num_colu):
@@ -130,9 +137,18 @@ class csvreader(object):
                     class_dir = get_class_dir(data_dir, 'img'+str(imagenum)+'.jpg', imagenum)
                     imageName = data_dir + class_dir + 'img'+str(imagenum)+'.jpg'
                     croppedim.save(imageName)
+                    pickle_key = "nonweeds"
+                    if class_dir == "weeds/":
+                        pickle_key = "weeds"
+		    picture_info[pickle_key][imageName] = {
+                         "x": curr_x,
+                         "y": curr_y,
+                    }
                     imagenum+=1
                     curr_x += IMAGE_SIZE
                 curr_y += IMAGE_SIZE
+            if data_dir == "./data/test/":
+		self.test_pictures.append(picture_info)
             return imagenum
 
 def get_rands(url, url_set):
