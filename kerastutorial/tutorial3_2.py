@@ -3,6 +3,22 @@ from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D
 from keras.layers import Activation, Dropout, Flatten, Dense
 from keras import backend as K
+import cv2
+import pickle
+
+
+images = []
+image_info = pickle.load( open( "./data/test_picture_info.pkl", "rb" ) )
+for x in image_info:
+	if len(x["weeds"]) == 0:
+		continue
+	for y in x["weeds"]:
+		print y
+		images.append(cv2.imread(y))
+	for y in x["nonweeds"]:
+		print y
+		images.append(cv2.imread(y))
+	break
 
 
 # dimensions of our images.
@@ -12,7 +28,7 @@ train_data_dir = '../datacollection/data/train'
 validation_data_dir = '../datacollection/data/validate'
 nb_train_samples = 18535#2000
 nb_validation_samples = 7870#800
-epochs = 50
+epochs = 1#50
 batch_size = 16
 
 if K.image_data_format() == 'channels_first':
@@ -69,5 +85,8 @@ model.fit_generator(
     epochs=epochs,
     validation_data=validation_generator,
     validation_steps=nb_validation_samples // batch_size)
+
+output = model.predict(images, verbose=1)
+print output
 
 model.save_weights('first_try.h5')
