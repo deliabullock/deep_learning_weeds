@@ -129,6 +129,7 @@ class csvreader(object):
             	"url": url,
                 "weeds": {},
                 "nonweeds": {}
+                "del": {}
 	    }
             for r in range(num_rows):
                 curr_x = x_start
@@ -140,6 +141,8 @@ class csvreader(object):
                     pickle_key = "nonweeds"
                     if class_dir == "weeds/":
                         pickle_key = "weeds"
+		    if class_dir == "del/":
+                        pickle_key = "del"
 		    picture_info[pickle_key][imageName] = {
                          "x": curr_x,
                          "y": curr_y,
