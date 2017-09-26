@@ -128,7 +128,7 @@ class csvreader(object):
 	    picture_info = {
             	"url": url,
                 "weeds": {},
-                "nonweeds": {}
+                "nonweeds": {},
                 "del": {}
 	    }
             for r in range(num_rows):

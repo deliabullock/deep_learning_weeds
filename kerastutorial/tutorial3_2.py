@@ -1,11 +1,11 @@
-from keras.preprocessing.image import ImageDataGenerator
+from keras.preprocessing.image import ImageDataGenerator,img_to_array, load_img
 from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D
 from keras.layers import Activation, Dropout, Flatten, Dense
 from keras import backend as K
-import cv2
 import pickle
-
+import numpy as np
+import PIL.Image as Image
 
 images = []
 image_info = pickle.load( open( "./data/test_picture_info.pkl", "rb" ) )
@@ -14,11 +14,16 @@ for x in image_info:
 		continue
 	for y in x["weeds"]:
 		print y
-		images.append(cv2.imread(y))
-	for y in x["nonweeds"]:
-		print y
-		images.append(cv2.imread(y))
-	break
+		#images = np.append(images, np.array(Image.open(y),dtype=np.uint8))
+                img = load_img(y, target_size = (298, 298))
+		img = img_to_array(img)
+		#img = np.expand_dims(img, axis=0)
+		images = img#np.vstack([img])
+		break
+	#for y in x["nonweeds"]:
+	#	print y
+	#	images = np.append(images, np.array(Image.open(y),dtype=np.uint8))
+	#break
 
 
 # dimensions of our images.
@@ -81,12 +86,12 @@ validation_generator = test_datagen.flow_from_directory(
 
 model.fit_generator(
     train_generator,
-    steps_per_epoch=nb_train_samples // batch_size,
+    steps_per_epoch=2,#nb_train_samples // batch_size,
     epochs=epochs,
     validation_data=validation_generator,
     validation_steps=nb_validation_samples // batch_size)
 
-output = model.predict(images, verbose=1)
+output = model.predict_classes(images)
 print output
 
 model.save_weights('first_try.h5')

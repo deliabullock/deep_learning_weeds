@@ -34,7 +34,7 @@ def make_image(picture_dict, output):
 	im.save("url.jpg")
 
 def test():
-	image_info = pickle.load( open( "./data/test_picture_info.pkl", "rb" ) )
+	image_info = pickle.load( open( "../datacollection/data/test_picture_info.pkl", "rb" ) )
 	for x in image_info:
 		if len(x["weeds"]) == 0:
 			continue
