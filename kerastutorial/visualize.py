@@ -3,6 +3,9 @@ import requests
 from io import BytesIO
 import pickle
 import numpy as np
+from keras.models import load_model
+from keras.models import load_model
+from keras.preprocessing import image
 
 def make_image(picture_dict, output):
 	url = picture_dict["url"]
@@ -34,18 +37,31 @@ def make_image(picture_dict, output):
 	im.save("url.jpg")
 
 def test():
-	image_info = pickle.load( open( "../datacollection/data/test_picture_info.pkl", "rb" ) )
+	image_info = pickle.load( open( "./data/test_picture_info.pkl", "rb" ) )
 	for x in image_info:
-		if len(x["weeds"]) == 0:
+		if len(x["weeds"]) == 0 or "val" not in x["weeds"].keys()[0]:
 			continue
-		leng = len(x["weeds"]) + len(x["nonweeds"])
-		output = np.random.randint(2, size=leng)
-		print output
-		print "WEEDS"
-		print x["weeds"]
-		print "NONWEEDS"
-		print x["nonweeds"]
+		print(x["weeds"].keys()[0])
+		output = get_output(x)
 		make_image(x, output)
 		break
+
+def get_output(picture_dict):
+	model = load_model('second_try.h5')
+	for key in picture_dict["weeds"]:
+		img = image.load_img(key, target_size=(299, 299))
+		x = image.img_to_array(img)
+		x = np.expand_dims(x, axis=0)
+
+		images = np.vstack([x])
+		classes = model.predict_classes(images, batch_size=10)
+		print classes
+		break
+	return []
+		## add x		
+	#for key in picture_dict["nonweeds"]:
+		## add x
+	
+
 
 test()
