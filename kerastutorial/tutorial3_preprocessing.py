@@ -4,7 +4,8 @@ from keras.layers import Conv2D, MaxPooling2D
 from keras.layers import Activation, Dropout, Flatten, Dense
 from keras import backend as K
 from keras.optimizers import SGD
-
+import time
+start = time.time()
 
 # dimensions of our images.
 img_width, img_height = 299, 299
@@ -13,12 +14,12 @@ train_data_dir = '../datacollection/data/train'
 validation_data_dir = '../datacollection/data/validate'
 nb_train_samples = 13000#6576
 nb_validation_samples = 2678
-epochs = 50
+epochs = 5#50
 batch_size = 32
 lrate = 0.01 ### HERE
 decay = lrate/epochs
-sgd = SGD(lr=1e-3, decay=1e-6, momentum=0.9, nesterov=True)
-#(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
+sgd = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
+#(lr=1e-3, decay=1e-6, momentum=0.9, nesterov=True)
 
 if K.image_data_format() == 'channels_first':
     input_shape = (3, img_width, img_height)
@@ -93,5 +94,8 @@ model.fit_generator(
     epochs=epochs,
     validation_data=validation_generator,
     validation_steps=nb_validation_samples // batch_size)
+end = time.time()
+print(end - start)
 
-model.save_weights('third_try.h5')
+model.save('my_model.h5')
+#model.save_weights('third_try.h5')

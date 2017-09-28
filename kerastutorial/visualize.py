@@ -39,15 +39,15 @@ def make_image(picture_dict, output):
 def test():
 	image_info = pickle.load( open( "./data/test_picture_info.pkl", "rb" ) )
 	for x in image_info:
-		if len(x["weeds"]) == 0 or "val" not in x["weeds"].keys()[0]:
+		print "hey"
+		if len(x["weeds"]) == 0:
 			continue
-		print(x["weeds"].keys()[0])
 		output = get_output(x)
 		make_image(x, output)
 		break
 
 def get_output(picture_dict):
-	model = load_model('second_try.h5')
+	model = load_model('../kerastutorial/my_model.h5')
 	for key in picture_dict["weeds"]:
 		img = image.load_img(key, target_size=(299, 299))
 		x = image.img_to_array(img)
