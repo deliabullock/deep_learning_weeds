@@ -18,8 +18,8 @@ epochs = 5#50
 batch_size = 32
 lrate = 0.01 ### HERE
 decay = lrate/epochs
-sgd = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
-#(lr=1e-3, decay=1e-6, momentum=0.9, nesterov=True)
+sgd = SGD(lr=1e-3, decay=1e-6, momentum=0.9, nesterov=True)
+#sgd = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
 
 if K.image_data_format() == 'channels_first':
     input_shape = (3, img_width, img_height)
@@ -33,9 +33,6 @@ model.add(Activation('relu'))
 model.add(Conv2D(32, (3, 3)))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
-
-model.add(Conv2D(64, (3, 3)))
-model.add(Activation('relu'))
 
 model.add(Conv2D(64, (3, 3)))
 model.add(Activation('relu'))
@@ -97,5 +94,5 @@ model.fit_generator(
 end = time.time()
 print(end - start)
 
-model.save('my_model.h5')
+model.save('my_model_2.h5')
 #model.save_weights('third_try.h5')
