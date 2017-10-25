@@ -12,14 +12,15 @@ img_width, img_height = 299, 299
 
 train_data_dir = '../datacollection/data/train'
 validation_data_dir = '../datacollection/data/validate'
-nb_train_samples = 13000#6576
-nb_validation_samples = 2678
-epochs = 5#50
+test_data_dir = '../datacollection/data/test'
+nb_train_samples = 6541
+nb_validation_samples = 1564
+epochs =50
 batch_size = 32
 lrate = 0.01 ### HERE
 decay = lrate/epochs
-sgd = SGD(lr=1e-3, decay=1e-6, momentum=0.9, nesterov=True)
-#sgd = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
+#sgd = SGD(lr=1e-3, decay=1e-6, momentum=0.9, nesterov=True)
+sgd = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
 
 if K.image_data_format() == 'channels_first':
     input_shape = (3, img_width, img_height)
@@ -80,7 +81,7 @@ train_generator = train_datagen.flow_from_directory(
     class_mode='binary')
 
 validation_generator = test_datagen.flow_from_directory(
-    validation_data_dir,
+    test_data_dir,
     target_size=(img_width, img_height),
     batch_size=batch_size,
     class_mode='binary')
@@ -94,5 +95,5 @@ model.fit_generator(
 end = time.time()
 print(end - start)
 
-model.save('my_model_2.h5')
+model.save('my_model_2_ballanced.h5')
 #model.save_weights('third_try.h5')
