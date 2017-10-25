@@ -116,6 +116,10 @@ class csvreader(object):
             def get_top_y(elem):
                 return elem['ys']['top']
 
+            url = url[25:]
+            ip = 'http://128.84.3.178'
+            url = ip + url
+ 
             response = requests.get(url)
             im = Image.open(BytesIO(response.content))
             w, h = im.size
