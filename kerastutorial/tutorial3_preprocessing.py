@@ -14,7 +14,7 @@ train_data_dir = '../datacollection/data/train'
 validation_data_dir = '../datacollection/data/validate'
 test_data_dir = '../datacollection/data/test'
 nb_train_samples = 6541
-nb_validation_samples = 1564
+nb_validation_samples = 1152
 epochs =50
 batch_size = 32
 lrate = 0.01 ### HERE
@@ -81,7 +81,7 @@ train_generator = train_datagen.flow_from_directory(
     class_mode='binary')
 
 validation_generator = test_datagen.flow_from_directory(
-    test_data_dir,
+    validation_data_dir,
     target_size=(img_width, img_height),
     batch_size=batch_size,
     class_mode='binary')
