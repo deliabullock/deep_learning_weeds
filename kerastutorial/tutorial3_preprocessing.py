@@ -1,4 +1,5 @@
 from keras.preprocessing.image import ImageDataGenerator
+from collections import Counter
 from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D
 from keras.layers import Activation, Dropout, Flatten, Dense
@@ -19,8 +20,8 @@ epochs =50
 batch_size = 32
 lrate = 0.01 ### HERE
 decay = lrate/epochs
-#sgd = SGD(lr=1e-3, decay=1e-6, momentum=0.9, nesterov=True)
-sgd = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
+sgd = SGD(lr=1e-3, decay=1e-6, momentum=0.9, nesterov=True)
+#sgd = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
 
 if K.image_data_format() == 'channels_first':
     input_shape = (3, img_width, img_height)
@@ -74,11 +75,19 @@ train_datagen = ImageDataGenerator(
 # only rescaling
 test_datagen = ImageDataGenerator(rescale=1. / 255)
 
+
 train_generator = train_datagen.flow_from_directory(
     train_data_dir,
     target_size=(img_width, img_height),
     batch_size=batch_size,
     class_mode='binary')
+
+## find class weights
+counter = Counter(train_generator.classes)  
+max_val = float(max(counter.values())) 
+class_weights = {class_id : max_val/num_images for class_id, num_images in counter.items()}
+print(class_weights)
+
 
 validation_generator = test_datagen.flow_from_directory(
     validation_data_dir,
@@ -90,10 +99,11 @@ model.fit_generator(
     train_generator,
     steps_per_epoch=nb_train_samples // batch_size,
     epochs=epochs,
+    class_weight=class_weights,
     validation_data=validation_generator,
     validation_steps=nb_validation_samples // batch_size)
 end = time.time()
 print(end - start)
 
-model.save('my_model_2_ballanced.h5')
+model.save('my_model_2_ballanced_2.h5')
 #model.save_weights('third_try.h5')
