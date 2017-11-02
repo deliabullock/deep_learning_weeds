@@ -51,7 +51,7 @@ model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 
 model.add(Flatten())
-model.add(Dense(64))
+model.add(Dense(256))
 model.add(Activation('relu'))
 model.add(Dropout(0.5))
 model.add(Dense(1))
@@ -83,12 +83,20 @@ train_generator = train_datagen.flow_from_directory(
     class_mode='binary')
 
 ## find class weights
+<<<<<<< HEAD
 counter = Counter(train_generator.classes)  
 max_val = float(max(counter.values())) 
 class_weights = {class_id : max_val/num_images for class_id, num_images in counter.items()}
 print(class_weights)
 
 
+=======
+counter = Counter(train_generator.classes)
+max_val = float(max(counter.values()))
+class_weights = {class_id : max_val/num_images for class_id, num_images in counter.items()}
+print(class_weights)
+
+>>>>>>> f216c3bfddc07223ffdd1a6e5c406dc640c9f9e1
 validation_generator = test_datagen.flow_from_directory(
     validation_data_dir,
     target_size=(img_width, img_height),
@@ -105,5 +113,9 @@ model.fit_generator(
 end = time.time()
 print(end - start)
 
+<<<<<<< HEAD
 model.save('my_model_2_ballanced_2.h5')
+=======
+model.save('my_model_2.h5')
+>>>>>>> f216c3bfddc07223ffdd1a6e5c406dc640c9f9e1
 #model.save_weights('third_try.h5')
