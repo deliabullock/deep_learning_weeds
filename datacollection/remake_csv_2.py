@@ -10,8 +10,8 @@ import pickle
 from green_pic import green_pic
 
 IMAGE_SIZE = 299
-weed_image_number = pickle.load(open('./data_csv_2/weed_nums.pkl')
-nonweed_image_number = pickle.load(open('./data_csv_2/nonweed_nums.pkl')
+weed_image_number = pickle.load(open('./data_csv_2/weed_nums.pkl'))
+nonweed_image_number = pickle.load(open('./data_csv_2/nonweed_nums.pkl'))
 
 class csvreader(object):
     def __init__(self, filename):
@@ -21,20 +21,20 @@ class csvreader(object):
     def readcsv(self):
         keys = pickle.load(open('./data_csv_2/out_urls.pkl'))
 
-        f = open('./data_csv_2/out_x_y.pkl', 'r')
+        f = open('./data_csv_2/out_x_y_2.pkl', 'r')
 	#start_points = pickle.load(f)
 	image_urls = pickle.load(f)
 	f.close()
 
         imagenum = 0
 	i = 0
-        for url in image_urls:
+        for url in keys:
 	    print(str(i))
 	    i += 1
             rand_x, rand_y = get_rands(url, image_urls)
             imagenum = self.crop_image(url, imagenum, rand_x, rand_y)
     
-    def crop_image(self, url, data_dir, imagenum, rand_x, rand_y):
+    def crop_image(self, url, imagenum, rand_x, rand_y):
             url = url[25:]
             ip = 'http://128.84.3.178'
             url = ip + url
@@ -78,10 +78,6 @@ class csvreader(object):
                     imagenum+=1
                     curr_x += IMAGE_SIZE
                 curr_y += IMAGE_SIZE
-            if data_dir == "./data/test/":
-		self.test_pictures.append(picture_info)
-            if data_dir == "./data/validate/":
-		self.validate_pictures.append(picture_info)
 	    img_name = url[url.rfind('/')+1:]
             im.save('./data_csv_2/' + img_name)
             return imagenum
@@ -91,7 +87,7 @@ def get_rands(url, url_set):
 		if x[0] == url:
 			return x[1], x[2]
 
-def get_class_dir(data_dir, img, num):
+def get_class_dir(img, num):
 	if img in weed_image_number:
 		return "weeds/"
         if img in nonweed_image_number:
