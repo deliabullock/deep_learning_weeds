@@ -12,6 +12,7 @@ from green_pic import green_pic
 IMAGE_SIZE = 299
 weed_image_number = pickle.load(open('./data_csv_2/weed_nums.pkl'))
 nonweed_image_number = pickle.load(open('./data_csv_2/nonweed_nums.pkl'))
+highres_images = pickle.load(open('./hq_urls.pkl'))
 
 class csvreader(object):
     def __init__(self, filename):
@@ -58,14 +59,15 @@ class csvreader(object):
             for r in range(num_rows):
                 curr_x = x_start
                 for n in range(num_colu):
-                    croppedim = im.crop((curr_x, curr_y, curr_x + 298, curr_y + 298))
-                    class_dir = get_class_dir('img'+str(imagenum)+'.jpg', imagenum)
-		    if class_dir == 'weeds/':
-			draw.polygon([(curr_x, curr_y),(curr_x + 298, curr_y),(curr_x + 298, curr_y + 298),( curr_x, curr_y + 298)], (150,0,255,50))
-		    else:
-			draw.polygon([(curr_x, curr_y),(curr_x + 298, curr_y),(curr_x + 298, curr_y + 298),( curr_x, curr_y + 298)], (20,30,50,50))
-                    imageName = './data_csv_2/' + class_dir + 'img'+str(imagenum)+'.jpg'
-                    croppedim.save(imageName)
+                    if url in highres_images:
+                        croppedim = im.crop((curr_x, curr_y, curr_x + 298, curr_y + 298))
+                        class_dir = get_class_dir('img'+str(imagenum)+'.jpg', imagenum)
+		        if class_dir == 'weeds/':
+			    draw.polygon([(curr_x, curr_y),(curr_x + 298, curr_y),(curr_x + 298, curr_y + 298),( curr_x, curr_y + 298)], (150,0,255,50))
+		        else:
+			    draw.polygon([(curr_x, curr_y),(curr_x + 298, curr_y),(curr_x + 298, curr_y + 298),( curr_x, curr_y + 298)], (20,30,50,50))
+                        imageName = './data_csv_2hq/' + class_dir + 'img'+str(imagenum)+'.jpg'
+                        croppedim.save(imageName)
                    # pickle_key = "nonweeds"
                    # if class_dir == "weeds/":
                    #     pickle_key = "weeds"
@@ -78,8 +80,9 @@ class csvreader(object):
                     imagenum+=1
                     curr_x += IMAGE_SIZE
                 curr_y += IMAGE_SIZE
-	    img_name = url[url.rfind('/')+1:]
-            im.save('./data_csv_2/' + img_name)
+            if url in highres_images:
+	        img_name = url[url.rfind('/')+1:]
+                im.save('./data_csv_2hq/' + str(imagenum) + 'last' +  img_name)
             return imagenum
 
 def get_rands(url, url_set):
