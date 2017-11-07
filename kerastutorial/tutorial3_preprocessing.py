@@ -1,4 +1,5 @@
 from keras.preprocessing.image import ImageDataGenerator
+from keras.layers.normalization import BatchNormalization
 from collections import Counter
 from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D
@@ -30,16 +31,20 @@ else:
 
 model = Sequential()
 model.add(Conv2D(32, (3, 3), input_shape=input_shape))
+model.add(BatchNormalization())
 model.add(Activation('relu'))
 
 model.add(Conv2D(32, (3, 3)))
+model.add(BatchNormalization())
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 
 model.add(Conv2D(64, (3, 3)))
+model.add(BatchNormalization())
 model.add(Activation('relu'))
 
 model.add(Conv2D(64, (3, 3)))
+model.add(BatchNormalization())
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 
@@ -47,13 +52,14 @@ model.add(Conv2D(128, (3, 3)))
 model.add(Activation('relu'))
 
 model.add(Conv2D(128, (3, 3)))
+model.add(BatchNormalization())
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 
 model.add(Flatten())
 model.add(Dense(256))
+model.add(BatchNormalization())
 model.add(Activation('relu'))
-model.add(Dropout(0.5))
 model.add(Dense(1))
 model.add(Activation('sigmoid'))
 
