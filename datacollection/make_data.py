@@ -11,7 +11,7 @@ from green_pic import green_pic
 
 IMAGE_SIZE = 299
 weed_image_number = pickle.load(open('./data/remake_data/clean_data/weed_image_numbers_with_del.pkl'))
-nonweed_image_number = pickle.load(open('./data/remake_data/clean_data/nonweed_image_numbers.pkl'))
+nonweed_image_number = pickle.load(open('./data/remake_data/clean_data/nonweed_image_numbers_with_del.pkl'))
 
 class csvreader(object):
     def __init__(self, filename):
