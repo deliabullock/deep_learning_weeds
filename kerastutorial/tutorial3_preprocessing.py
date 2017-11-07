@@ -81,6 +81,7 @@ train_datagen = ImageDataGenerator(
 # only rescaling
 test_datagen = ImageDataGenerator(rescale=1. / 255)
 
+
 train_generator = train_datagen.flow_from_directory(
     train_data_dir,
     target_size=(img_width, img_height),
@@ -88,8 +89,8 @@ train_generator = train_datagen.flow_from_directory(
     class_mode='binary')
 
 ## find class weights
-counter = Counter(train_generator.classes)
-max_val = float(max(counter.values()))
+counter = Counter(train_generator.classes)  
+max_val = float(max(counter.values())) 
 class_weights = {class_id : max_val/num_images for class_id, num_images in counter.items()}
 print(class_weights)
 
@@ -109,5 +110,5 @@ model.fit_generator(
 end = time.time()
 print(end - start)
 
-model.save('my_model_2.h5')
+model.save('my_model_c_part_2_with_more_data.h5')
 #model.save_weights('third_try.h5')
