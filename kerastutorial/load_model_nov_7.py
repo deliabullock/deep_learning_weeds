@@ -7,6 +7,7 @@ from keras.layers import Activation, Dropout, Flatten, Dense
 from keras import backend as K
 from keras.optimizers import SGD
 import time
+from keras.models import load_model
 start = time.time()
 
 # dimensions of our images.
@@ -29,7 +30,7 @@ if K.image_data_format() == 'channels_first':
 else:
     input_shape = (img_width, img_height, 3)
 
-model = Sequential()
+'''model = Sequential()
 model.add(Conv2D(32, (3, 3), input_shape=input_shape))
 model.add(BatchNormalization())
 model.add(Activation('relu'))
@@ -61,8 +62,10 @@ model.add(Dense(256))
 model.add(BatchNormalization())
 model.add(Activation('relu'))
 model.add(Dense(1))
-model.add(Activation('sigmoid'))
+model.add(Activation('sigmoid'))'''
 
+
+model = load_model('../kerastutorial/my_model_2.h5')
 model.compile(loss='binary_crossentropy', optimizer=sgd, metrics=['accuracy'])
 
 # this is the augmentation configuration we will use for training
@@ -110,13 +113,5 @@ model.fit_generator(
 end = time.time()
 print(end - start)
 
-<<<<<<< HEAD
-#<<<<<<< HEAD
-model.save('my_model_2_ballanced_2.h5')
-#=======
-#model.save('my_model_2.h5')
-#>>>>>>> f216c3bfddc07223ffdd1a6e5c406dc640c9f9e1
-=======
 model.save('my_model_c_part_2_with_more_data.h5')
->>>>>>> e14ea3ac8e31c255903545b590203e05201e8813
 #model.save_weights('third_try.h5')
