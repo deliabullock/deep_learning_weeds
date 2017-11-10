@@ -1,5 +1,4 @@
 from keras.preprocessing.image import ImageDataGenerator
-from keras.layers.normalization import BatchNormalization
 from collections import Counter
 from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D
@@ -29,39 +28,6 @@ if K.image_data_format() == 'channels_first':
 else:
     input_shape = (img_width, img_height, 3)
 
-model = Sequential()
-model.add(Conv2D(32, (3, 3), input_shape=input_shape))
-model.add(BatchNormalization())
-model.add(Activation('relu'))
-
-model.add(Conv2D(32, (3, 3)))
-model.add(BatchNormalization())
-model.add(Activation('relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-
-model.add(Conv2D(64, (3, 3)))
-model.add(BatchNormalization())
-model.add(Activation('relu'))
-
-model.add(Conv2D(64, (3, 3)))
-model.add(BatchNormalization())
-model.add(Activation('relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-
-model.add(Conv2D(128, (3, 3)))
-model.add(Activation('relu'))
-
-model.add(Conv2D(128, (3, 3)))
-model.add(BatchNormalization())
-model.add(Activation('relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-
-model.add(Flatten())
-model.add(Dense(256))
-model.add(BatchNormalization())
-model.add(Activation('relu'))
-model.add(Dense(1))
-model.add(Activation('sigmoid'))
 
 model.compile(loss='binary_crossentropy', optimizer=sgd, metrics=['accuracy'])
 
@@ -88,7 +54,8 @@ train_generator = train_datagen.flow_from_directory(
     batch_size=batch_size,
     class_mode='binary')
 
-## find class weights
+
+
 counter = Counter(train_generator.classes)  
 max_val = float(max(counter.values())) 
 class_weights = {class_id : max_val/num_images for class_id, num_images in counter.items()}
@@ -110,13 +77,63 @@ model.fit_generator(
 end = time.time()
 print(end - start)
 
-<<<<<<< HEAD
-#<<<<<<< HEAD
+
 model.save('my_model_2_ballanced_2.h5')
-#=======
-#model.save('my_model_2.h5')
-#>>>>>>> f216c3bfddc07223ffdd1a6e5c406dc640c9f9e1
-=======
-model.save('my_model_c_part_2_with_more_data.h5')
->>>>>>> e14ea3ac8e31c255903545b590203e05201e8813
-#model.save_weights('third_try.h5')
+
+
+
+from keras.applications.vgg19 import VGG19
+from keras.preprocessing import image
+from keras.models import Model
+from keras.layers import Dense, GlobalAveragePooling2D
+from keras import backend as K
+
+# create the base pre-trained model
+base_model = VGG19(weights='imagenet', include_top=False)
+
+# add a global spatial average pooling layer
+x = base_model.output
+x = GlobalAveragePooling2D()(x)
+# let's add a fully-connected layer
+x = Dense(1024, activation='relu')(x)
+# and a logistic layer -- let's say we have 200 classes
+predictions = Dense(2, activation='sigmoid')(x)
+
+# this is the model we will train
+model = Model(inputs=base_model.input, outputs=predictions)
+
+# first: train only the top layers (which were randomly initialized)
+# i.e. freeze all convolutional InceptionV3 layers
+for layer in base_model.layers:
+    layer.trainable = False
+
+# compile the model (should be done *after* setting layers to non-trainable)
+model.compile(optimizer='rmsprop', loss='categorical_crossentropy')
+
+# train the model on the new data for a few epochs
+model.fit_generator(...)
+
+# at this point, the top layers are well trained and we can start fine-tuning
+# convolutional layers from inception V3. We will freeze the bottom N layers
+# and train the remaining top layers.
+
+# let's visualize layer names and layer indices to see how many layers
+# we should freeze:
+for i, layer in enumerate(base_model.layers):
+   print(i, layer.name)
+
+# we chose to train the top 2 inception blocks, i.e. we will freeze
+# the first 249 layers and unfreeze the rest:
+#for layer in model.layers[:249]:
+#   layer.trainable = False
+#for layer in model.layers[249:]:
+#   layer.trainable = True
+
+# we need to recompile the model for these modifications to take effect
+# we use SGD with a low learning rate
+#from keras.optimizers import SGD
+#model.compile(optimizer=SGD(lr=0.0001, momentum=0.9), loss='categorical_crossentropy')
+
+# we train our model again (this time fine-tuning the top 2 inception blocks
+# alongside the top Dense layers
+#model.fit_generator(...)
