@@ -9,16 +9,17 @@ import random
 import pickle
 import Queue
 import xml.etree.ElementTree as ET
+from PIL import Image,ImageDraw
 
-
+ROOT_DIR = '/Users/deliabullock/Documents/Classes/deep_learning_weeds/datacollection/'
 IMAGE_SIZE = 299
 weed_image_number = pickle.load(open('./data/remake_data/clean_data/weed_image_numbers_with_del.pkl'))
 nonweed_image_number = pickle.load(open('./data/remake_data/clean_data/nonweed_image_numbers_with_del.pkl'))
+WEED = 1
+NONWEED = 0
+DEL = -1
 
 class csvreader(object):
-    WEED = 1
-    NONWEED = 0
-    DEL = -1
 
     def __init__(self):
         self.train_percent = 0.70
@@ -47,9 +48,9 @@ class csvreader(object):
 	rand_indices = pickle.load(f)
 	f.close()
 	
-        img_dir = "/data_xml/train_image_folder/"
-        annot_dir = "/data_xml/train_annot_folder/"
-        ground_dir = "/data_xml/train_ground_folder/"
+        img_dir = "data_xml/train_image_folder/"
+        annot_dir = "data_xml/train_annot_folder/"
+        ground_dir = "data_xml/train_ground_folder/"
         imagenum = 0
 	i = 0
         for x in rand_indices[:train_n]:
@@ -62,27 +63,27 @@ class csvreader(object):
             url = keys[x]
             rand_x, rand_y = get_rands(url, image_urls)
             imagenum = self.crop_image(url, ground_dir, annot_dir, img_dir, imagenum, rand_x, rand_y)
-        img_dir = "/data_xml/test_image_folder/"
-        annot_dir = "/data_xml/test_annot_folder/"
-        ground_dir = "/data_xml/test_ground_folder/"
+        img_dir = "data_xml/test_image_folder/"
+        annot_dir = "data_xml/test_annot_folder/"
+        ground_dir = "data_xml/test_ground_folder/"
         for x in rand_indices[train_n:train_n+test_n]:
 	    print("test: " + str(i))
 	    i += 1
             url = keys[x]
             rand_x, rand_y = get_rands(url, image_urls)
             imagenum = self.crop_image(url, ground_dir, annot_dir, img_dir, imagenum, rand_x, rand_y)
-        img_dir = "/data_xml/valid_image_folder/"
-        annot_dir = "/data_xml/valid_annot_folder/"
-        ground_dir = "/data_xml/valid_ground_folder/"
+        img_dir = "data_xml/valid_image_folder/"
+        annot_dir = "data_xml/valid_annot_folder/"
+        ground_dir = "data_xml/valid_ground_folder/"
         for x in rand_indices[train_n+test_n:train_n+test_n+valid_n]:
 	    print("val: " + str(i))
 	    i += 1
             url = keys[x]
             rand_x, rand_y = get_rands(url, image_urls)
             imagenum = self.crop_image(url, ground_dir, annot_dir, img_dir, imagenum, rand_x, rand_y)
-        img_dir = "/data_xml/train_image_folder/"
-        annot_dir = "/data_xml/train_annot_folder/"
-        ground_dir = "/data_xml/train_ground_folder/"
+        img_dir = "data_xml/train_image_folder/"
+        annot_dir = "data_xml/train_annot_folder/"
+        ground_dir = "data_xml/train_ground_folder/"
         for x in rand_indices[train_n+test_n+valid_n:]:
 	    print("train: " + str(i))
 	    i += 1
@@ -109,7 +110,7 @@ class csvreader(object):
             for r in range(num_rows):
                 curr_x = x_start
                 for n in range(num_colu):
-                    category = get_class_dir('img'+str(imagenum)+'.jpg')
+                    category = get_class('img'+str(imagenum)+'.jpg')
 		    if category == WEED:
 			x_y = str(curr_x) + '_' + str(curr_y)
 			weed_points.add(x_y)
@@ -120,7 +121,7 @@ class csvreader(object):
 	    bounding_boxes = save_annot_file(annot_dir, weed_points, image_name, w, h)
 	    draw = ImageDraw.Draw(im,"RGBA")
 	    for x in bounding_boxes:
-	    	draw.rectangle([(x[0], x[1]), (x[2], x[3])], outline=(150,0,255,255))
+	    	draw.rectangle([(x[0], x[1]), (x[2], x[3])], fill=(150,0,255,45))
 	    im.save(ground_dir + image_name)
 	    # SAVE GROUND
             return imagenum
@@ -174,31 +175,47 @@ def get_bounding_boxes(weed_points):
 		[-IMAGE_SIZE, -IMAGE_SIZE],
 		[0, IMAGE_SIZE],
  		[0, -IMAGE_SIZE]] 
-	for point in weed_points:
-		weed_points.remove(point)
+	weed_list = list(weed_points)
+	while len(weed_list) > 0:
+		point = weed_list[-1]
+		del weed_list[-1]
 		x_y_list = point.split('_')
 		x = int(x_y_list[0])
 		y = int(x_y_list[1])
-		bounding_box = [x, y]
 		x_max = x
 		y_max = y
+		x_min = x
+		y_min = y
 		q = Queue.Queue()
 		q.put([x, y])
-		while not q.empty() and not len(weed_points) == 0:
+		i = 0
+		while not q.empty() and not len(weed_list) == 0:
+			tmp = q.get()
+			x = tmp[0]
+			y = tmp[1]
+			if i%1000 == 0:
+				print(i)
+			i+=1
 			for p in x_y_permutations:
 				new_x = x + p[0]
 				new_y = y + p[1]
 				key = str(new_x) + '_' + str(new_y)
-				if key in weed_points:
-					weed_points.remove(key)
+				if key in weed_list:
+					ind = weed_list.index(key)	
+					del weed_list[ind]
 					q.put([new_x, new_y])
 					if new_x > x_max:
 						x_max = new_x
 					if new_y > y_max:
 						y_max = new_y
-		bounding_box.append(x_max + IMAGE_SIZE)
-		bounding_box.append(y_max + IMAGE_SIZE)
+					if new_x < x_min:
+						x_min = new_x
+					if new_y < y_min:
+						y_min = new_y
+		bounding_box = [x_min, y_min, x_max + IMAGE_SIZE, y_max + IMAGE_SIZE]
+		print(bounding_box)
 		out.append(bounding_box)
+	print(out)
 	return out
 			
 		# queue for finding bounding box
