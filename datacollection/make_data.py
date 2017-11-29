@@ -78,8 +78,8 @@ class csvreader(object):
             url = keys[x]
             rand_x, rand_y = get_rands(url, image_urls)
             imagenum = self.crop_image(url, data_dir, imagenum, rand_x, rand_y)
-	pickle.dump( self.test_pictures, open( "./data/test_picture_info.p", "wb" ) )
-	pickle.dump( self.test_pictures, open( "./data/validate_picture_info.p", "wb" ) )
+	pickle.dump( self.test_pictures, open( "./data/test_picture_info.pkl", "wb" ) )
+	pickle.dump( self.validate_pictures, open( "./data/validate_picture_info.pkl", "wb" ) )
     
     def crop_image(self, url, data_dir, imagenum, rand_x, rand_y):
             def get_top_y(elem):
