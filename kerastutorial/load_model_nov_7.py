@@ -65,7 +65,7 @@ model.add(Dense(1))
 model.add(Activation('sigmoid'))'''
 
 
-model = load_model('../kerastutorial/my_model_2.h5')
+model = load_model('../kerastutorial/my_model_2_ballanced.h5')
 model.compile(loss='binary_crossentropy', optimizer=sgd, metrics=['accuracy'])
 
 # this is the augmentation configuration we will use for training
