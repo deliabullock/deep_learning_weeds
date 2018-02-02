@@ -16,9 +16,9 @@ nonweed_image_number = pickle.load(open('./data/remake_data/clean_data/nonweed_i
 class csvreader(object):
     def __init__(self, filename):
         self.filename = filename
-        self.train_percent = 0.65
+        self.train_percent = 0.70
         self.test_percent = 0.15
-        self.validate_percent = 0.20	
+        self.validate_percent = 0.15	
         self.img_size = 299	
 	self.test_pictures = []
 	self.validate_pictures = []
