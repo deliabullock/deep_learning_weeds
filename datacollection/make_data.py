@@ -18,8 +18,9 @@ validate_full_image_info = pickle.load(open("./data/validate_full_image_info.pkl
 
 class csvreader(object):
     def __init__(self):
-	#self.test_pictures = []
-	#self.validate_pictures = []
+	self.test_pictures = []
+	self.train_pictures = []
+	self.validate_pictures = []
 
     def readcsv(self):	
         data_dir = "./data/train/"
@@ -43,8 +44,9 @@ class csvreader(object):
 	    y = full_image[2]
 	    imagenum = full_image[3]
             self.crop_image(url, data_dir, imagenum, x, y)
-	#pickle.dump( self.test_pictures, open( "./data/test_picture_info.pkl", "wb" ) )
-	#pickle.dump( self.validate_pictures, open( "./data/validate_picture_info.pkl", "wb" ) )
+	pickle.dump( self.test_pictures, open( "./data/test_picture_info.pkl", "wb" ) )
+	pickle.dump( self.test_pictures, open( "./data/train_picture_info.pkl", "wb" ) )
+	pickle.dump( self.validate_pictures, open( "./data/validate_picture_info.pkl", "wb" ) )
     
     def crop_image(self, url, data_dir, imagenum, rand_x, rand_y):
             def get_top_y(elem):
@@ -77,12 +79,15 @@ class csvreader(object):
 		    picture_info[pickle_key][imageName] = {
                          "x": curr_x,
                          "y": curr_y,
+			 "num": str(imagenum)
                     }
                     imagenum+=1
                     curr_x += IMAGE_SIZE
                 curr_y += IMAGE_SIZE
             if data_dir == "./data/test/":
 		self.test_pictures.append(picture_info)
+            if data_dir == "./data/train/":
+		self.train_pictures.append(picture_info)
             if data_dir == "./data/validate/":
 		self.validate_pictures.append(picture_info)
 
@@ -91,6 +96,8 @@ def get_class_dir(data_dir, img, num):
 		return "weeds/"
         if img in nonweed_image_number:
 		return "nonweeds/"
+	print(img)
+	return "del/"
 
 def main():
     c = csvreader()
