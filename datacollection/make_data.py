@@ -9,8 +9,8 @@ import random
 import pickle
 
 IMAGE_SIZE = 299
-weed_image_number = pickle.load(open('./data/remake_data/clean_data/weed_image_numbers_with_del.pkl'))
-nonweed_image_number = pickle.load(open('./data/remake_data/clean_data/nonweed_image_numbers_with_del.pkl'))
+weed_image_number = pickle.load(open('./data/remake_data/clean_data/weed_image_numbers_final.pkl'))
+nonweed_image_number = pickle.load(open('./data/remake_data/clean_data/nonweed_image_numbers_final.pkl'))
 
 train_full_image_info = pickle.load(open("./data/train_full_image_info.pkl"))
 test_full_image_info = pickle.load(open("./data/test_full_image_info.pkl"))
@@ -45,7 +45,7 @@ class csvreader(object):
 	    imagenum = full_image[3]
             self.crop_image(url, data_dir, imagenum, x, y)
 	pickle.dump( self.test_pictures, open( "./data/test_picture_info.pkl", "wb" ) )
-	pickle.dump( self.test_pictures, open( "./data/train_picture_info.pkl", "wb" ) )
+	pickle.dump( self.train_pictures, open( "./data/train_picture_info.pkl", "wb" ) )
 	pickle.dump( self.validate_pictures, open( "./data/validate_picture_info.pkl", "wb" ) )
     
     def crop_image(self, url, data_dir, imagenum, rand_x, rand_y):
