@@ -49,9 +49,6 @@ class csvreader(object):
 	pickle.dump( self.validate_pictures, open( "./data/validate_picture_info.pkl", "wb" ) )
     
     def crop_image(self, url, data_dir, imagenum, rand_x, rand_y):
-            def get_top_y(elem):
-                return elem['ys']['top']
-
             response = requests.get(url)
             im = Image.open(BytesIO(response.content))
             w, h = im.size
