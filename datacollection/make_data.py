@@ -17,7 +17,16 @@ test_full_image_info = pickle.load(open("./data/test_full_image_info.pkl"))
 validate_full_image_info = pickle.load(open("./data/validate_full_image_info.pkl"))
 
 class csvreader(object):
+<<<<<<< HEAD
+    def __init__(self, filename):
+        self.filename = filename
+        self.train_percent = 0.7
+        self.test_percent = 0.15
+        self.validate_percent = 0.15	
+        self.img_size = 299	
+=======
     def __init__(self):
+>>>>>>> 67a1774549b0a5b2c792d3c89b39edfb12d8d89f
 	self.test_pictures = []
 	self.train_pictures = []
 	self.validate_pictures = []
