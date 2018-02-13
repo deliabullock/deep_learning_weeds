@@ -23,7 +23,8 @@ class csvreader(object):
 	self.validate_pictures = []
 
     def readcsv(self):	
-        data_dir = "./data/train/"
+        '''
+	data_dir = "./data/train/"
         for full_image in train_full_image_info:
             url = full_image[0]
 	    x = full_image[1]
@@ -37,7 +38,8 @@ class csvreader(object):
 	    y = full_image[2]
 	    imagenum = full_image[3]
             self.crop_image(url, data_dir, imagenum, x, y)
-        data_dir = "./data/validate/"
+        '''
+	data_dir = "./data_to_test/validate/"
         for full_image in validate_full_image_info:
             url = full_image[0]
 	    x = full_image[1]
