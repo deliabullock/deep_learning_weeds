@@ -17,69 +17,66 @@ from PIL import Image
 import pickle
 start = time.time()
 
-# dimensions of our images.
 train_data_dir = '../datacollection/data/train'
-validation_data_dir = '../datacollection/data/validate'
+validation_data_dir = '../datacollection/data_to_test/validate'
 test_data_dir = '../datacollection/data/test'
 batch_size = 32
 
-model = load_model('../kerastutorial/my_model_c_with_large_img.h5')
+model = load_model('../kerastutorial/my_model_c_with_large_img_best.h5')
 
 extension = validation_data_dir + '/weeds/*.jpg'
-image_info = pickle.load( open( "./data/validate_picture_info.pkl", "rb" ) )
 total_weeds = 0
 total_images = 0
-for x in range(1):#image_info:
-	images = [None] * (batch_size)
-	i = 0
-	j = 0
-	for pic in glob.glob(extension):#x['weeds']:#glob.glob(extension):
-		img = image.load_img(pic)
-		img = img.resize((299, 299), Image.ANTIALIAS)
-		img = image.img_to_array(img)
-		img = np.expand_dims(img, axis=0)
-		images[j] = img
-		j += 1
-		i += 1
-		if i != 1 and (i) % batch_size == 0:
-			j = 0
-			total_images += batch_size
-			images = np.concatenate(images, axis=0)			
-			images = (1./255)*images
-			classes = model.predict_classes(images, batch_size=batch_size)
-			num_weeds = (classes == 1).sum()
-			total_weeds += num_weeds
-			curr_percent = total_weeds*1.0/total_images
-			images = [None] * (batch_size)
-			print(curr_percent)
-	
-	print('nonweeds')
+print('This is doing the large images')
+images = [None] * (batch_size)
+j = 0
+for pic in glob.glob(extension):
+	img = image.load_img(pic)
+	img = img.resize((299, 299), Image.ANTIALIAS)
+	img = image.img_to_array(img)
+	img = np.expand_dims(img, axis=0)
+	images[j] = img
+	j += 1
+	if j == batch_size:
+		j = 0
+		total_images += batch_size
+		images = np.concatenate(images, axis=0)			
+		images = (1./255)*images
+		classes = model.predict_classes(images, batch_size=batch_size)
+		num_weeds = (classes == 1).sum()
+		total_weeds += num_weeds
+		curr_percent = total_weeds*1.0/total_images
+		images = [None] * (batch_size)
+		print(curr_percent)
+print('Final weed percentage: ' + str(curr_percent))
+print('nonweeds')
 
-	extension = validation_data_dir + '/nonweeds/*.jpg'
-	images = [None] * (batch_size)
-	i = 0
-	j = 0
-	#total_weeds = 0
-	#total_images = 0
-	for pic in glob.glob(extension):#x['nonweeds']:#glob.glob(extension):
-		img = image.load_img(pic)
-		img = img.resize((299, 299), Image.ANTIALIAS)
-		img = image.img_to_array(img)
-		img = np.expand_dims(img, axis=0)
-		images[j] = img
-		j += 1
-		i += 1
-		if i != 1 and (i) % batch_size == 0:
-			j = 0
-			total_images += batch_size
-			images = np.concatenate(images, axis=0)			
-			images = (1./255)*images
-			classes = model.predict_classes(images, batch_size=batch_size)
-			num_weeds = (classes == 0).sum()
-			total_weeds += num_weeds
-			curr_percent = total_weeds*1.0/total_images
-			images = [None] * (batch_size)
-			print(curr_percent)
+extension = validation_data_dir + '/nonweeds/*.jpg'
+images = [None] * (batch_size)
+j = 0
+total_nonweeds = 0
+total_images_2 = 0
+for pic in glob.glob(extension):
+	img = image.load_img(pic)
+	img = img.resize((299, 299), Image.ANTIALIAS)
+	img = image.img_to_array(img)
+	img = np.expand_dims(img, axis=0)
+	images[j] = img
+	j += 1
+	if j == batch_size:
+		j = 0
+		total_images_2 += batch_size
+		images = np.concatenate(images, axis=0)			
+		images = (1./255)*images
+		classes = model.predict_classes(images, batch_size=batch_size)
+		num_weeds = (classes == 0).sum()
+		total_nonweeds += num_weeds
+		curr_percent = total_nonweeds*1.0/total_images_2
+		images = [None] * (batch_size)
+		print(curr_percent)	
+print('Final nonweed percentage: ' + str(curr_percent))
+total_percent = (total_nonweeds*1.0 + total_weeds)/(total_images + total_images_2)
+print('Final total percentage: ' + str(total_percent))
 	
 
 end = time.time()
