@@ -7,12 +7,12 @@ from io import BytesIO
 import random
 import pickle
 
-IMAGE_SIZE = 300
 JITTER_STEP = 150
-VAL_JITTER_NUM = 10
+#VAL_JITTER_NUM = 10
 TRAIN_JITTER_NUM = 10
-weed_image_number = pickle.load(open('./data/remake_data/clean_data/weed_image_numbers_with_del.pkl'))
-nonweed_image_number = pickle.load(open('./data/remake_data/clean_data/nonweed_image_numbers_with_del.pkl'))
+IMAGE_SIZE = 299
+weed_image_number = pickle.load(open('./data/remake_data/clean_data/weed_image_numbers_final.pkl'))
+nonweed_image_number = pickle.load(open('./data/remake_data/clean_data/nonweed_image_numbers_final.pkl'))
 
 train_full_image_info = pickle.load(open("./data/train_full_image_info.pkl"))
 test_full_image_info = pickle.load(open("./data/test_full_image_info.pkl"))
@@ -25,7 +25,7 @@ class csvreader(object):
 	self.validate_pictures = []
 
     def readcsv(self):	
-        data_dir = "./data_jittered/train/"
+        data_dir = "./data/train/"
 	i = 0
         for full_image in train_full_image_info:
 	    print(i)
@@ -37,7 +37,7 @@ class csvreader(object):
 	    self.crop_image(url, data_dir, imagenum, x, y)
             image_grid = self.get_image_grid(url, imagenum, x, y)
             self.crop_with_jitter(image_grid, url, data_dir, imagenum, x, y)
-        data_dir = "./data_jittered/test/"
+        data_dir = "./data/test/"
         for full_image in test_full_image_info:
 	    print(i)
 	    i += 1
@@ -46,7 +46,7 @@ class csvreader(object):
 	    y = full_image[2]
 	    imagenum = full_image[3]
             self.crop_image(url, data_dir, imagenum, x, y)
-        data_dir = "./data_jittered/validate/"
+        data_dir = "./data/validate/"
         for full_image in validate_full_image_info:
 	    print(i)
 	    i += 1
@@ -117,23 +117,25 @@ class csvreader(object):
 		    if n != num_colu - 1:
 		       	if image_grid[r][n + 1]['class'] == 1:
 				jitter_right = True
-				if r != num_rows - 1 and image_grid[r + 1][n + 1]['class'] == 1:
+				if jitter_down and image_grid[r + 1][n + 1]['class'] == 1:
 					jitter_diag = True
 		    #jitter down
 		    if jitter_down:
 			curr_y_tmp = curr_y
-		    	for x in range(2):
+		    	for x in range(1):
 		        	curr_y_tmp = curr_y_tmp + JITTER_STEP
-                    		croppedim = im.crop(get_image_dims(curr_x, curr_y, w, h))
+                    		croppedim = im.crop(get_image_dims(curr_x, curr_y_tmp, w, h))
+                    		croppedim = croppedim.resize((300, 300), Image.ANTIALIAS)
                     		class_dir = 'weeds/'
                     		imageName = data_dir + class_dir + 'img'+str(imagenum)+ '_d' + str(x) + '.jpg'
                     		croppedim.save(imageName)
 		    #jitter right
 		    if jitter_right:
 			curr_x_tmp = curr_x
-		    	for x in range(2):
+		    	for x in range(1):
 		        	curr_x_tmp = curr_x_tmp + JITTER_STEP
-                    		croppedim = im.crop(get_image_dims(curr_x, curr_y, w, h))
+                    		croppedim = im.crop(get_image_dims(curr_x_tmp, curr_y, w, h))
+                    		croppedim = croppedim.resize((300, 300), Image.ANTIALIAS)
                     		class_dir = 'weeds/'
                     		imageName = data_dir + class_dir + 'img'+str(imagenum)+ '_r' + str(x) + '.jpg'
                     		croppedim.save(imageName)
@@ -141,14 +143,11 @@ class csvreader(object):
 		    if jitter_diag:
 			curr_x_tmp = curr_x
 			curr_y_tmp = curr_y
-		    	for x in range(1, 2):
-		        	curr_x_tmp = curr_x_tmp + JITTER_STEP
-				for y in range(1, 2):
-		        		curr_y_tmp = curr_y_tmp + JITTER_STEP
-                    			croppedim = im.crop(get_image_dims(curr_x, curr_y, w, h))
-                    			class_dir = 'weeds/'
-                    			imageName = data_dir + class_dir + 'img'+str(imagenum)+ '_' + str(x)+'_'+ str(y)+'.jpg'
-                    			croppedim.save(imageName)
+                    	croppedim = im.crop(get_image_dims(curr_x + JITTER_STEP, curr_y + JITTER_STEP, w, h))
+                    	croppedim = croppedim.resize((300, 300), Image.ANTIALIAS)
+                    	class_dir = 'weeds/'
+                    	imageName = data_dir + class_dir + 'img'+str(imagenum)+ '_' + str(x)+'_'+ str(y)+'.jpg'
+                    	croppedim.save(imageName)
 
 
     def crop_image(self, url, data_dir, imagenum, rand_x, rand_y):
@@ -185,11 +184,11 @@ class csvreader(object):
                     imagenum+=1
                     curr_x += IMAGE_SIZE
                 curr_y += IMAGE_SIZE
-            if data_dir == "./data_jittered/test/":
+            if data_dir == "./data/test/":
 		self.test_pictures.append(picture_info)
-            if data_dir == "./data_jittered/train/":
+            if data_dir == "./data/train/":
 		self.train_pictures.append(picture_info)
-            if data_dir == "./data_jittered/validate/":
+            if data_dir == "./data/validate/":
 		self.validate_pictures.append(picture_info)
 
 def get_image_dims(curr_x, curr_y, w, h):
