@@ -15,13 +15,13 @@ from keras.callbacks import Callback, ModelCheckpoint
 start = time.time()
 
 # dimensions of our images.
-img_width, img_height = 299, 299
+img_width, img_height = 300, 300
 
 train_data_dir = '../datacollection/data/train'
 validation_data_dir = '../datacollection/data/validate'
 test_data_dir = '../datacollection/data/test'
-nb_train_samples = 8772
-nb_validation_samples = 1104
+nb_train_samples = 13268#8772
+nb_validation_samples = 2936#1104
 epochs =50
 batch_size = 32
 #lrate = 0.01 
@@ -56,7 +56,7 @@ model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 
 model.add(Flatten())
-model.add(Dense(256))
+model.add(Dense(64))
 model.add(Activation('relu'))
 model.add(Dense(1))
 model.add(Activation('sigmoid'))
@@ -105,10 +105,10 @@ class_weights_val = {class_id : max_val/num_images for class_id, num_images in c
 print('Validation class weights: ')
 print(class_weights_val)
 
-model_name = 'my_model_c_with_large_img_trained_from_scratch_best.h5'
+model_name = 'my_model_c_with_64_only_900_best.h5'
 model_checkpoint = ModelCheckpoint(model_name, monitor='val_acc', save_best_only=True)
 
-print('Results for my_model_c_with_large_img_trained_from_scratch: ')
+print('Results for my_model_c_with_64_only_900: ')
 model.fit_generator(
     train_generator,
     steps_per_epoch=nb_train_samples // batch_size,
@@ -120,5 +120,5 @@ model.fit_generator(
 end = time.time()
 print(end - start)
 
-model.save('my_model_c_with_large_img_trained_from_scratch.h5')
+model.save('my_model_c_with_64_only_900.h5')
 #model.save_weights('third_try.h5')

@@ -9,7 +9,7 @@ import pickle
 
 JITTER_STEP = 150
 #VAL_JITTER_NUM = 10
-TRAIN_JITTER_NUM = 10
+TRAIN_JITTER_NUM = 2230
 IMAGE_SIZE = 299
 weed_image_number = pickle.load(open('./data/remake_data/clean_data/weed_image_numbers_final.pkl'))
 nonweed_image_number = pickle.load(open('./data/remake_data/clean_data/nonweed_image_numbers_final.pkl'))
@@ -27,6 +27,7 @@ class csvreader(object):
     def readcsv(self):	
         data_dir = "./data/train/"
 	i = 0
+	pics_made_from_jitter = 0
         for full_image in train_full_image_info:
 	    print(i)
 	    i += 1
@@ -34,9 +35,12 @@ class csvreader(object):
 	    x = full_image[1]
 	    y = full_image[2]
 	    imagenum = full_image[3]
+	    print(imagenum)
 	    self.crop_image(url, data_dir, imagenum, x, y)
-            image_grid = self.get_image_grid(url, imagenum, x, y)
-            self.crop_with_jitter(image_grid, url, data_dir, imagenum, x, y)
+	    if pics_made_from_jitter < TRAIN_JITTER_NUM:
+            	image_grid = self.get_image_grid(url, imagenum, x, y)
+            	new_pics_num = self.crop_with_jitter(image_grid, url, data_dir, imagenum, x, y)
+	    	pics_made_from_jitter += new_pics_num
         data_dir = "./data/test/"
         for full_image in test_full_image_info:
 	    print(i)
@@ -45,6 +49,7 @@ class csvreader(object):
 	    x = full_image[1]
 	    y = full_image[2]
 	    imagenum = full_image[3]
+	    print(imagenum)
             self.crop_image(url, data_dir, imagenum, x, y)
         data_dir = "./data/validate/"
         for full_image in validate_full_image_info:
@@ -54,6 +59,7 @@ class csvreader(object):
 	    x = full_image[1]
 	    y = full_image[2]
 	    imagenum = full_image[3]
+	    print(imagenum)
 	    self.crop_image(url, data_dir, imagenum, x, y)
             image_grid = self.get_image_grid(url, imagenum, x, y)
             self.crop_with_jitter(image_grid, url, data_dir, imagenum, x, y)
@@ -72,7 +78,6 @@ class csvreader(object):
             curr_y = y_start
 
 	    picture_grid = [None] * (num_rows)
-	    print(picture_grid)
 	    for x in range(num_rows):
 		picture_grid[x] = [None] * (num_colu)
 
@@ -95,6 +100,7 @@ class csvreader(object):
 
     def crop_with_jitter(self, image_grid, url, data_dir, imagenum, rand_x, rand_y):
             
+	    pics_created = 0
 	    response = requests.get(url)
             im = Image.open(BytesIO(response.content))
             w, h = im.size
@@ -123,6 +129,7 @@ class csvreader(object):
 		    if jitter_down:
 			curr_y_tmp = curr_y
 		    	for x in range(1):
+				pics_created += 1
 		        	curr_y_tmp = curr_y_tmp + JITTER_STEP
                     		croppedim = im.crop(get_image_dims(curr_x, curr_y_tmp, w, h))
                     		croppedim = croppedim.resize((300, 300), Image.ANTIALIAS)
@@ -133,6 +140,7 @@ class csvreader(object):
 		    if jitter_right:
 			curr_x_tmp = curr_x
 		    	for x in range(1):
+				pics_created += 1
 		        	curr_x_tmp = curr_x_tmp + JITTER_STEP
                     		croppedim = im.crop(get_image_dims(curr_x_tmp, curr_y, w, h))
                     		croppedim = croppedim.resize((300, 300), Image.ANTIALIAS)
@@ -141,13 +149,15 @@ class csvreader(object):
                     		croppedim.save(imageName)
 		    #jitter diagonal
 		    if jitter_diag:
+			pics_created += 1
 			curr_x_tmp = curr_x
 			curr_y_tmp = curr_y
                     	croppedim = im.crop(get_image_dims(curr_x + JITTER_STEP, curr_y + JITTER_STEP, w, h))
                     	croppedim = croppedim.resize((300, 300), Image.ANTIALIAS)
                     	class_dir = 'weeds/'
-                    	imageName = data_dir + class_dir + 'img'+str(imagenum)+ '_' + str(x)+'_'+ str(y)+'.jpg'
+                    	imageName = data_dir + class_dir + 'img'+str(imagenum)+ '_diag.jpg'
                     	croppedim.save(imageName)
+	    return pics_created
 
 
     def crop_image(self, url, data_dir, imagenum, rand_x, rand_y):
@@ -190,25 +200,26 @@ class csvreader(object):
 		self.train_pictures.append(picture_info)
             if data_dir == "./data/validate/":
 		self.validate_pictures.append(picture_info)
+	    print('final: ' + str(imagenum))
 
 def get_image_dims(curr_x, curr_y, w, h):
-	if curr_x - 299 > 0:
-	    low_x = curr_x-299
+	if curr_x - 300 > 0:
+	    low_x = curr_x-300
 	else: 
 	    low_x = 1
-	if curr_x + 596 <= w:
-	    high_x = curr_x+596
+	if curr_x + 598 <= w:
+	    high_x = curr_x+598
 	else: 
 	    high_x = w
 
-	if curr_y - 299 > 0:
-            low_y = curr_y-299
+	if curr_y - 300 > 0:
+            low_y = curr_y-300
         else:
             low_y = 1
-        if curr_y + 596 <= h:
-            high_y = curr_y+596
+        if curr_y + 598 <= h:
+            high_y = curr_y+598
         else:
-            high_y = w
+            high_y = h
 	return (low_x, low_y, high_x, high_y)
 
 def get_class_dir(data_dir, img, num):
