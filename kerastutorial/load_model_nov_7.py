@@ -8,6 +8,7 @@ from keras import backend as K
 from keras.optimizers import SGD
 import time
 from keras.models import load_model
+from keras.callbacks import Callback, ModelCheckpoint
 start = time.time()
 
 # dimensions of our images.
@@ -65,7 +66,7 @@ model.add(Dense(1))
 model.add(Activation('sigmoid'))'''
 
 
-model = load_model('../kerastutorial/my_model_2_ballanced.h5')
+model = load_model('../kerastutorial/my_model_c_part_2_with_more_data.h5')
 model.compile(loss='binary_crossentropy', optimizer=sgd, metrics=['accuracy'])
 
 # this is the augmentation configuration we will use for training
@@ -103,15 +104,19 @@ validation_generator = test_datagen.flow_from_directory(
     batch_size=batch_size,
     class_mode='binary')
 
+model_name = 'my_model_c_part_2_with_more_data_and_less_hq_best.h5'
+model_checkpoint = ModelCheckpoint(model_name, monitor='val_acc', save_best_only=True)
+
 model.fit_generator(
     train_generator,
     steps_per_epoch=nb_train_samples // batch_size,
     epochs=epochs,
     class_weight=class_weights,
     validation_data=validation_generator,
+    callbacks=[model_checkpoint],
     validation_steps=nb_validation_samples // batch_size)
 end = time.time()
 print(end - start)
 
-model.save('my_model_c_part_2_with_more_data.h5')
+model.save('my_model_c_part_2_with_more_data_and_less_hq.h5')
 #model.save_weights('third_try.h5')

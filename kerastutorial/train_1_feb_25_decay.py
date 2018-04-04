@@ -17,11 +17,11 @@ start = time.time()
 # dimensions of our images.
 img_width, img_height = 300, 300
 
-train_data_dir = '../datacollection/compare_data/train'
-validation_data_dir = '../datacollection/compare_data/validate'
-test_data_dir = '../datacollection/compare_data/test'
-nb_train_samples = 66290 
-nb_validation_samples = 13760
+train_data_dir = '../datacollection/data/train'
+validation_data_dir = '../datacollection/data/validate'
+test_data_dir = '../datacollection/data/test'
+nb_train_samples = 49702 
+nb_validation_samples = 10368
 epochs =25
 batch_size = 32
 #lrate = 0.01 
@@ -105,7 +105,7 @@ class_weights_val = {class_id : max_val/num_images for class_id, num_images in c
 print('Validation class weights: ')
 print(class_weights_val)
 
-model_name = 'my_model_c_with_64_only_300_decay_feb_25_1'
+model_name = 'my_model_c_no_warped_mar_6_2'
 model_checkpoint = ModelCheckpoint(model_name+"best.h5", monitor='val_acc', verbose=1, save_best_only=True)
 #add decay
 reduce_lr = ReduceLROnPlateau(monitor='val_acc', verbose=1, factor=0.3, patience=5, min_lr=0.0005)

@@ -56,7 +56,7 @@ model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 
 model.add(Flatten())
-model.add(Dense(64))
+model.add(Dense(128))
 model.add(Activation('relu'))
 model.add(Dense(1))
 model.add(Activation('sigmoid'))
@@ -105,10 +105,10 @@ class_weights_val = {class_id : max_val/num_images for class_id, num_images in c
 print('Validation class weights: ')
 print(class_weights_val)
 
-model_name = 'my_model_c_with_64_only_900_best.h5'
+model_name = 'my_model_c_with_128_only_900_best.h5'
 model_checkpoint = ModelCheckpoint(model_name, monitor='val_acc', save_best_only=True)
 
-print('Results for my_model_c_with_64_only_900: ')
+print('Results for my_model_c_with_128_only_900: ')
 model.fit_generator(
     train_generator,
     steps_per_epoch=nb_train_samples // batch_size,
@@ -120,5 +120,5 @@ model.fit_generator(
 end = time.time()
 print(end - start)
 
-model.save('my_model_c_with_64_only_900.h5')
+model.save('my_model_c_with_128_only_900.h5')
 #model.save_weights('third_try.h5')

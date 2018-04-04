@@ -4,7 +4,7 @@ import pickle
 # (open("./data/train_full_image_info.pkl"))
 
 
-CONFIG_NUM = 6508
+CONFIG_NUM = 22715
 
 config = pickle.load(open('./config' + str(CONFIG_NUM) + '.pkl'))
 

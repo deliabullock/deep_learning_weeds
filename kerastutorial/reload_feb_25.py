@@ -23,6 +23,7 @@ validation_data_dir = '../datacollection/data/validate'
 test_data_dir = '../datacollection/data/test'
 nb_train_samples = 66290 
 nb_validation_samples = 13760
+<<<<<<< HEAD
 epochs =10#24
 batch_size = 32
 #lrate = 0.01 
@@ -38,6 +39,7 @@ else:
 model = Sequential()
 model.add(Conv2D(32, (3, 3), input_shape=input_shape))
 model.add(Activation('relu'))
+<<<<<<< HEAD
 model.add(Conv2D(32, (3, 3)))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
@@ -51,6 +53,27 @@ model.add(Activation('relu'))
 model.add(Conv2D(128, (3, 3)))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
+=======
+
+model.add(Conv2D(32, (3, 3)))
+model.add(Activation('relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+
+model.add(Conv2D(64, (3, 3)))
+model.add(Activation('relu'))
+
+model.add(Conv2D(64, (3, 3)))
+model.add(Activation('relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+
+model.add(Conv2D(128, (3, 3)))
+model.add(Activation('relu'))
+
+model.add(Conv2D(128, (3, 3)))
+model.add(Activation('relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+
+>>>>>>> ce7993b2a78a17e12b98d50bce821a5ac8f43b8f
 model.add(Flatten())
 model.add(Dense(64))
 model.add(Activation('relu'))

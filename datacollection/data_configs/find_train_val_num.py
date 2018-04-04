@@ -3,7 +3,7 @@ import pickle
 
 all_stats = pickle.load(open("./all_stats_info.pkl"))
 
-config = pickle.load(open("./config6508.pkl"))
+config = pickle.load(open("./config22715.pkl"))
 
 num_ncg = 0
 num_cg = 0

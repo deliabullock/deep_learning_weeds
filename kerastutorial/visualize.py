@@ -7,7 +7,6 @@ from keras.models import load_model
 from keras.models import load_model
 from keras.preprocessing import image
 from keras.optimizers import SGD
-<<<<<<< HEAD
 
 def make_image(picture_dict, output):
     url = picture_dict["url"]

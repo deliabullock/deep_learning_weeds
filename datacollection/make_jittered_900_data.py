@@ -7,9 +7,6 @@ from io import BytesIO
 import random
 import pickle
 
-#JITTER_STEP = 150
-#VAL_JITTER_NUM = 10
-TRAIN_JITTER_NUM = 2230
 IMAGE_SIZE = 299
 NUM_TRAIN_IM_NEEDED = 29456
 NUM_TEST_IM_NEEDED = 6196
@@ -81,11 +78,11 @@ class csvreader(object):
                 new_pics_num = self.crop_with_jitter(image_grid, url, data_dir, imagenum, x, y, NUM_VAL_IM_NEEDED, first_time_through, pics_made_from_jitter)
 		pics_made_from_jitter += new_pics_num
 	    first_time_through = False
-	#pickle.dump( self.test_pictures, open( "./data/test_picture_info_2.pkl", "wb" ) )
-	#pickle.dump( self.train_pictures, open( "./data/train_picture_info_2.pkl", "wb" ) )
-	#pickle.dump( self.validate_pictures, open( "./data/validate_picture_info_2.pkl", "wb" ) )
-	#pickle.dump( self.jitter_numbers, open( "./data/jittered_num_info.pkl", "wb") )
-	#pickle.dump( self.picture_jitter_info, open( "./data/picture_jitter_info.pkl", "wb") )
+	pickle.dump( self.test_pictures, open( "./data/test_picture_info_2.pkl", "wb" ) )
+	pickle.dump( self.train_pictures, open( "./data/train_picture_info_2.pkl", "wb" ) )
+	pickle.dump( self.validate_pictures, open( "./data/validate_picture_info_2.pkl", "wb" ) )
+	pickle.dump( self.jitter_numbers, open( "./data/jittered_num_info.pkl", "wb") )
+	pickle.dump( self.picture_jitter_info, open( "./data/picture_jitter_info.pkl", "wb") )
     
     def get_image_grid(self, url, imagenum, rand_x, rand_y):
             response = requests.get(url)
@@ -217,7 +214,7 @@ class csvreader(object):
             for r in range(num_rows):
                 curr_x = x_start
                 for n in range(num_colu):
-		    croppedim = im.crop(get_image_dims(curr_x, curr_y, w, h)
+		    croppedim = im.crop(get_image_dims(curr_x, curr_y, w, h))
                     croppedim = croppedim.resize((300, 300), Image.ANTIALIAS)
                     class_dir = get_class_dir(data_dir, 'img'+str(imagenum)+'.jpg', imagenum)
                     imageName = data_dir + class_dir + 'img'+str(imagenum)+'.jpg'
