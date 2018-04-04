@@ -1,0 +1,27 @@
+this file holds one master pickle: all_image_info.pkl
+which is a list of image items = [ [<url>, <x>, <y>, <first_imagenum>] ]
+this file holds one complementary pickle: all_stats_info.pkl
+which is a list of image items = [ [num_cg, num_ncg, num_jittered] ]
+
+there are also configuration pickles: image_config_<x>.pkl
+which is a dictionary with list values = 
+{
+	'train': [<indicies of train images that correspond to all_image_info.pkl], #158 long 
+	'validation': ..., # 33 long
+	'test': ..., # 33 long
+	'train_stats': {
+		#_cg: 1,
+		#_ncg: <number of noncrabgrass photos in 1:x ratio>,
+		#_jitter_photos: <number of new photos created through jitter>
+	},
+	'val_stats': {
+		#_cg: 1,
+		#_ncg: <number of noncrabgrass photos in 1:x ratio>,
+		#_jitter_photos: <number of new photos created through jitter>
+	},
+	'test_stats': {
+		#_cg: 1,
+		#_ncg: <number of noncrabgrass photos in 1:x ratio>,
+		#_jitter_photos: <number of new photos created through jitter>
+	}
+}
