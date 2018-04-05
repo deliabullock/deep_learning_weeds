@@ -23,6 +23,7 @@ class csvreader(object):
 	self.validate_pictures = []
 
     def readcsv(self):	
+	'''
         data_dir = "./data/train/"
         for full_image in train_full_image_info:
             url = full_image[0]
@@ -37,17 +38,21 @@ class csvreader(object):
 	    y = full_image[2]
 	    imagenum = full_image[3]
             self.crop_image(url, data_dir, imagenum, x, y)
-        data_dir = "./data/validate/"
+	'''
+        data_dir = "./data_to_test/validate/"
+	i = 0
         for full_image in validate_full_image_info:
+	    print(i)
+	    i += 1
             url = full_image[0]
 	    x = full_image[1]
 	    y = full_image[2]
 	    imagenum = full_image[3]
             self.crop_image(url, data_dir, imagenum, x, y)
 	
-	pickle.dump( self.test_pictures, open( "./data/large_test_picture_info.pkl", "wb" ) )
-	pickle.dump( self.train_pictures, open( "./data/large_train_picture_info.pkl", "wb" ) )
-	pickle.dump( self.validate_pictures, open( "./data/large_validate_picture_info.pkl", "wb" ) )
+#	pickle.dump( self.test_pictures, open( "./data/large_test_picture_info.pkl", "wb" ) )
+#	pickle.dump( self.train_pictures, open( "./data/large_train_picture_info.pkl", "wb" ) )
+#	pickle.dump( self.validate_pictures, open( "./data/large_validate_picture_info.pkl", "wb" ) )
     
     def crop_image(self, url, data_dir, imagenum, rand_x, rand_y):
             def get_top_y(elem):

@@ -23,7 +23,8 @@ validation_data_dir = '../datacollection/data/validate'
 test_data_dir = '../datacollection/data/test'
 nb_train_samples = 66290 
 nb_validation_samples = 13760
-epochs =24
+<<<<<<< HEAD
+epochs =10#24
 batch_size = 32
 #lrate = 0.01 
 #decay = lrate/epochs
@@ -38,6 +39,21 @@ else:
 model = Sequential()
 model.add(Conv2D(32, (3, 3), input_shape=input_shape))
 model.add(Activation('relu'))
+<<<<<<< HEAD
+model.add(Conv2D(32, (3, 3)))
+model.add(Activation('relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Conv2D(64, (3, 3)))
+model.add(Activation('relu'))
+model.add(Conv2D(64, (3, 3)))
+model.add(Activation('relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Conv2D(128, (3, 3)))
+model.add(Activation('relu'))
+model.add(Conv2D(128, (3, 3)))
+model.add(Activation('relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+=======
 
 model.add(Conv2D(32, (3, 3)))
 model.add(Activation('relu'))
@@ -57,6 +73,7 @@ model.add(Conv2D(128, (3, 3)))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 
+>>>>>>> ce7993b2a78a17e12b98d50bce821a5ac8f43b8f
 model.add(Flatten())
 model.add(Dense(64))
 model.add(Activation('relu'))
@@ -64,7 +81,7 @@ model.add(Dense(1))
 model.add(Activation('sigmoid'))
 '''
 
-model = load_model('../kerastutorial/my_model_c_with_64_only_900_decay_feb_25_1best.h5')
+model = load_model('../kerastutorial/my_model_c_no_warped_mar_6_2best.h5')
 model.compile(loss='binary_crossentropy', optimizer=sgd, metrics=['accuracy'])
 
 # this is the augmentation configuration we will use for training
@@ -109,7 +126,7 @@ class_weights_val = {class_id : max_val/num_images for class_id, num_images in c
 print('Validation class weights: ')
 print(class_weights_val)
 
-model_name = 'my_model_c_with_64_only_900_decay_feb_25_15'
+model_name = 'my_model_c_no_warped_mar_6_2_2'
 model_checkpoint = ModelCheckpoint(model_name+"best.h5", monitor='val_acc', verbose=1, save_best_only=True)
 #add decay
 reduce_lr = ReduceLROnPlateau(monitor='val_acc', verbose=1, factor=0.3, patience=5, min_lr=0.0005)
