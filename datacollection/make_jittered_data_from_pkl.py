@@ -30,9 +30,11 @@ class csvreader(object):
 	self.validate_pictures = []
 	self.jitter_numbers = jitter_nums
 	self.picture_jitter_info = {}
+	self.warped_images = {}
 
     def readcsv(self):	
-        data_dir = "./compare_data/train/"
+        data_dir = "./data/train/"
+	self.warped_images[data_dir] = set([])
 	index = 0
 	i = 0
 	pics_made_from_jitter = 0
@@ -53,7 +55,8 @@ class csvreader(object):
            	new_pics_num, index = self.crop_with_jitter(image_grid, url, data_dir, imagenum, x, y, NUM_TRAIN_IM_NEEDED, first_time_through, pics_made_from_jitter, index)
 	    	pics_made_from_jitter += new_pics_num
 	    first_time_through = False
-        data_dir = "./compare_data/test/"
+        data_dir = "./data/test/"
+	self.warped_images[data_dir] = set([])
         for full_image in test_full_image_info:
 	    print(i)
 	    i += 1
@@ -63,7 +66,8 @@ class csvreader(object):
 	    imagenum = full_image[3]
 	    print(imagenum)
             self.crop_image(url, data_dir, imagenum, x, y)
-        data_dir = "./compare_data/validate/"
+        data_dir = "./data/validate/"
+	self.warped_images[data_dir] = set([])
 	
 	pics_made_from_jitter = 0
 	first_time_through = True 
@@ -87,6 +91,7 @@ class csvreader(object):
 	pickle.dump( self.train_pictures, open( "./compare_data/train_picture_info_2.pkl", "wb" ) )
 	pickle.dump( self.validate_pictures, open( "./compare_data/validate_picture_info_2.pkl", "wb" ) )
 	pickle.dump( self.picture_jitter_info, open( "./compare_data/picture_jitter_info.pkl", "wb") )
+	pickle.dump( self.warped_images, open( "./compare_data/warped_image_info.pkl", "wb") )
     
     def get_image_grid(self, url, imagenum, rand_x, rand_y):
             response = requests.get(url)
@@ -167,10 +172,14 @@ class csvreader(object):
 		    	        for x in range(1):
 				    pics_created += 1
 		        	    curr_y_tmp = curr_y_tmp + jitter_step
-                    		    croppedim = im.crop(get_image_dims(curr_x, curr_y_tmp, w, h))
+                    		    dims, warped = get_image_dims_900(curr_x, curr_y_tmp, w, h)
+                    		    croppedim = im.crop(dims)
                     		    croppedim = croppedim.resize((300, 300), Image.ANTIALIAS)
+				    image_key = 'img'+str(imagenum)+ '_d_' + str(jitter_step) + '.jpg'
+				    if warped:
+					self.warped_images[data_dir].add(image_key)
                     		    class_dir = 'weeds/'
-                    		    imageName = data_dir + class_dir + 'img'+str(imagenum)+ '_d_' + str(jitter_step) + '.jpg'
+                    		    imageName = data_dir + class_dir + image_key
                     		    croppedim.save(imageName)
 		        #jitter right
 		        if jitter_right:
@@ -180,10 +189,14 @@ class csvreader(object):
 		    	        for x in range(1):
 				    pics_created += 1
 		        	    curr_x_tmp = curr_x_tmp + jitter_step
-                    		    croppedim = im.crop(get_image_dims(curr_x_tmp, curr_y, w, h))
+                    		    dims, warped = get_image_dims_900(curr_x_tmp, curr_y, w, h)
+                    		    croppedim = im.crop(dims)
                     		    croppedim = croppedim.resize((300, 300), Image.ANTIALIAS)
+				    image_key = 'img'+str(imagenum)+ '_r_' + str(jitter_step) + '.jpg'
+				    if warped:
+					self.warped_images[data_dir].add(image_key)
                     		    class_dir = 'weeds/'
-                    		    imageName = data_dir + class_dir + 'img'+str(imagenum)+ '_r_' + str(jitter_step) + '.jpg'
+                    		    imageName = data_dir + class_dir + image_key
                     		    croppedim.save(imageName)
 		        #jitter diagonal
 		        if jitter_diag:
@@ -192,10 +205,14 @@ class csvreader(object):
 			        pics_created += 1
 			        curr_x_tmp = curr_x + jitter_step
 			        curr_y_tmp = curr_y + jitter_step
-                    	        croppedim = im.crop(get_image_dims(curr_x_tmp, curr_y_tmp, w, h))
+		    		dims, warped = get_image_dims_900(curr_x_tmp, curr_y_tmp, w, h)
+                    	        croppedim = im.crop(dims)
+				image_key = 'img'+str(imagenum)+ '_diag_' + str(jitter_step) + '.jpg'
+				if warped:
+					self.warped_images[data_dir].add(image_key)
                     	        croppedim = croppedim.resize((300, 300), Image.ANTIALIAS)
                     	        class_dir = 'weeds/'
-                    	        imageName = data_dir + class_dir + 'img'+str(imagenum)+ '_diag_' + str(jitter_step) + '.jpg'
+                    	        imageName = data_dir + class_dir + image_key
                     	        croppedim.save(imageName)
 
 			if first_time_through:
@@ -224,7 +241,10 @@ class csvreader(object):
             for r in range(num_rows):
                 curr_x = x_start
                 for n in range(num_colu):
-                    croppedim = im.crop(get_image_dims(curr_x, curr_y, w, h))
+		    dims, warped = get_image_dims_900(curr_x, curr_y, w, h)
+		    if warped:
+			self.warped_images[data_dir].add('img'+str(imagenum)+'.jpg')
+                    croppedim = im.crop(dims)
                     croppedim = croppedim.resize((300, 300), Image.ANTIALIAS)
                     class_dir = get_class_dir(data_dir, 'img'+str(imagenum)+'.jpg', imagenum)
                     imageName = data_dir + class_dir + 'img'+str(imagenum)+'.jpg'
@@ -248,7 +268,7 @@ class csvreader(object):
 		self.validate_pictures.append(picture_info)
 	    print('final: ' + str(imagenum))
 
-def get_image_dims(curr_x, curr_y, w, h):
+def get_image_dims_300(curr_x, curr_y, w, h):
 	low_x = curr_x
 	if curr_x + 298 <= w:
 	    high_x = curr_x+298
@@ -260,7 +280,32 @@ def get_image_dims(curr_x, curr_y, w, h):
             high_y = curr_y+298
         else:
             high_y = h
-	return (low_x, low_y, high_x, high_y)
+	return ((low_x, low_y, high_x, high_y), False)
+
+def get_image_dims_900(curr_x, curr_y, w, h):
+	warped = False
+	if curr_x - 300 > 0:
+	    low_x = curr_x-300
+	else: 
+	    low_x = 1
+	    warped = True
+	if curr_x + 598 <= w:
+	    high_x = curr_x+598
+	else: 
+	    high_x = w
+	    warped = True
+
+	if curr_y - 300 > 0:
+            low_y = curr_y-300
+        else:
+            low_y = 1
+	    warped = True
+        if curr_y + 598 <= h:
+            high_y = curr_y+598
+        else:
+            high_y = h
+	    warped = True
+	return ((low_x, low_y, high_x, high_y), warped)
 
 def get_class_dir(data_dir, img, num):
 	if img in weed_image_number:

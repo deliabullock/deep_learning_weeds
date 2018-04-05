@@ -30,7 +30,7 @@ def make_new_data_config(config_num):
 	print('\tTrain -- 1:' + str(train_stats['num_ncg'])[:5] + "\t1:" + str(train_stats['num_jittered'])[:5])
 	print('\tValid -- 1:' + str(val_stats['num_ncg'])[:5]  + "\t1:" + str(val_stats['num_jittered'])[:5])
 	print('\tTest  -- 1:' + str(test_stats['num_ncg'])[:5]  + "\t1:" + str(test_stats['num_jittered'])[:5])
-	return abs(train_stats['num_ncg'] - val_stats['num_ncg']) + abs(test_stats['num_ncg'] - val_stats['num_ncg']) + abs(train_stats['num_ncg'] - test_stats['num_ncg']) + abs(train_stats['num_jittered'] - val_stats['num_jittered']) + abs(test_stats['num_jittered'] - val_stats['num_jittered']) + abs(train_stats['num_jittered'] - test_stats['num_jittered'])
+	return abs(train_stats['num_ncg'] - val_stats['num_ncg']) + abs(train_stats['num_jittered'] - val_stats['num_jittered']) 
 	
 def get_shuffled_list():
 	l = range(224)
