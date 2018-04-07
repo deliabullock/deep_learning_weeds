@@ -105,7 +105,7 @@ class_weights_val = {class_id : max_val/num_images for class_id, num_images in c
 print('Validation class weights: ')
 print(class_weights_val)
 
-model_name = 'my_model_c_no_warped_mar_6_2'
+model_name = 'my_model_c_april_4_1'
 model_checkpoint = ModelCheckpoint(model_name+"best.h5", monitor='val_acc', verbose=1, save_best_only=True)
 #add decay
 reduce_lr = ReduceLROnPlateau(monitor='val_acc', verbose=1, factor=0.3, patience=5, min_lr=0.0005)
@@ -119,10 +119,10 @@ model.fit_generator(
     epochs=epochs,
     class_weight=class_weights,
     validation_data=validation_generator,
-    callbacks=[model_checkpoint],
+    callbacks=[model_checkpoint, reduce_lr],
     validation_steps=nb_validation_samples // batch_size)
 end = time.time()
 print(end - start)
 
-model.save(model_name+'.h5')
+model.save('/context_warping_april4/' + model_name+'.h5')
 #model.save_weights('third_try.h5')
