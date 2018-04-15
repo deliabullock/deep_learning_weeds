@@ -18,11 +18,11 @@ import pickle
 start = time.time()
 
 train_data_dir = '../datacollection/data/train'
-validation_data_dir = '../datacollection/data_to_test/validate'
+validation_data_dir = '../datacollection/data/validate'
 test_data_dir = '../datacollection/data/test'
 batch_size = 32
 
-model = load_model('../kerastutorial/my_model_c_with_large_img_best.h5')
+model = load_model('../kerastutorial/my_model_c_compare_stretch_april_13_run_3best.h5')
 
 extension = validation_data_dir + '/weeds/*.jpg'
 total_weeds = 0
@@ -32,7 +32,6 @@ images = [None] * (batch_size)
 j = 0
 for pic in glob.glob(extension):
 	img = image.load_img(pic)
-	img = img.resize((299, 299), Image.ANTIALIAS)
 	img = image.img_to_array(img)
 	img = np.expand_dims(img, axis=0)
 	images[j] = img
@@ -49,6 +48,7 @@ for pic in glob.glob(extension):
 		images = [None] * (batch_size)
 		print(curr_percent)
 print('Final weed percentage: ' + str(curr_percent))
+aaa = curr_percent
 print('nonweeds')
 
 extension = validation_data_dir + '/nonweeds/*.jpg'
@@ -58,7 +58,6 @@ total_nonweeds = 0
 total_images_2 = 0
 for pic in glob.glob(extension):
 	img = image.load_img(pic)
-	img = img.resize((299, 299), Image.ANTIALIAS)
 	img = image.img_to_array(img)
 	img = np.expand_dims(img, axis=0)
 	images[j] = img
@@ -74,6 +73,7 @@ for pic in glob.glob(extension):
 		curr_percent = total_nonweeds*1.0/total_images_2
 		images = [None] * (batch_size)
 		print(curr_percent)	
+print('Final weed percentage: ' + str(aaa))
 print('Final nonweed percentage: ' + str(curr_percent))
 total_percent = (total_nonweeds*1.0 + total_weeds)/(total_images + total_images_2)
 print('Final total percentage: ' + str(total_percent))
