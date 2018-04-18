@@ -1,0 +1,151 @@
+
+ from -inf to 0.84077, saving model to my_model_c_with_64_only_900_decay_feb_25_1best.h5
+0.8408
+
+ from 0.84077 to 0.87694, saving model to my_model_c_with_64_only_900_decay_feb_25_1best.h5
+0.8769
+
+ from 0.87694 to 0.91386, saving model to my_model_c_with_64_only_900_decay_feb_25_1best.h5
+0.9139
+
+ from 0.91386 to 0.91946, saving model to my_model_c_with_64_only_900_decay_feb_25_1best.h5
+0.9195
+
+ from 0.91946 to 0.92782, saving model to my_model_c_with_64_only_900_decay_feb_25_1best.h5
+0.9278
+
+ from 0.92782 to 0.93356, saving model to my_model_c_with_64_only_900_decay_feb_25_1best.h5
+0.9336
+
+ from 0.93356 to 0.94505, saving model to my_model_c_with_64_only_900_decay_feb_25_1best.h5
+0.9450
+
+ from 0.94505 to 0.94570, saving model to my_model_c_with_64_only_900_decay_feb_25_1best.h5
+0.9457
+
+improve
+0.9252
+
+ from 0.94570 to 0.94984, saving model to my_model_c_with_64_only_900_decay_feb_25_1best.h5
+0.9498
+
+ from 0.94984 to 0.95043, saving model to my_model_c_with_64_only_900_decay_feb_25_1best.h5
+0.9504
+
+ from 0.95043 to 0.95522, saving model to my_model_c_with_64_only_900_decay_feb_25_1best.h5
+0.9552
+
+ from 0.95522 to 0.96118, saving model to my_model_c_with_64_only_900_decay_feb_25_1best.h5
+0.9612
+
+improve
+0.9557
+
+improve
+0.9503
+
+improve
+0.9527
+
+ from 0.96118 to 0.96242, saving model to my_model_c_with_64_only_900_decay_feb_25_1best.h5
+0.9624
+
+improve
+0.9465
+
+improve
+0.9554
+
+improve
+0.9594
+
+improve
+0.9621
+
+improve
+0.9607
+
+improve
+0.9495
+
+ from 0.96242 to 0.96249, saving model to my_model_c_with_64_only_900_decay_feb_25_1best.h5
+0.9625
+
+improve
+0.9570
+
+improve
+0.9580
+
+improve
+0.9578
+
+improve
+0.9556
+
+improve
+0.9474
+
+improve
+0.9506
+
+improve
+0.9624
+
+improve
+0.9604
+
+improve
+0.9557
+
+improve
+0.9546
+
+ from -inf to 0.95690, saving model to my_model_c_with_64_only_900_decay_feb_25_15best.h5
+0.9569
+
+ from 0.95690 to 0.95694, saving model to my_model_c_with_64_only_900_decay_feb_25_15best.h5
+0.9569
+
+ from 0.95694 to 0.95799, saving model to my_model_c_with_64_only_900_decay_feb_25_15best.h5
+0.9580
+
+improve
+0.9556
+
+improve
+0.9521
+
+improve
+0.9552
+
+ from 0.95799 to 0.96305, saving model to my_model_c_with_64_only_900_decay_feb_25_15best.h5
+0.9630
+
+improve
+0.9618
+
+improve
+0.9561
+
+improve
+0.9598
+
+improve
+0.9582
+
+improve
+0.9567
+
+improve
+0.9553
+
+improve
+0.9552
+
+improve
+0.9585
+
+improve
+0.9525
+

@@ -1,0 +1,151 @@
+
+ from -inf to 0.92757, saving model to my_model_c_compare_stretch_april_13_run_3best.h5
+0.9276
+
+ from 0.92757 to 0.94139, saving model to my_model_c_compare_stretch_april_13_run_3best.h5
+0.9414
+
+ from 0.94139 to 0.94712, saving model to my_model_c_compare_stretch_april_13_run_3best.h5
+0.9471
+
+improve
+0.9299
+
+ from 0.94712 to 0.94733, saving model to my_model_c_compare_stretch_april_13_run_3best.h5
+0.9473
+
+ from 0.94733 to 0.96199, saving model to my_model_c_compare_stretch_april_13_run_3best.h5
+0.9620
+
+ from 0.96199 to 0.96264, saving model to my_model_c_compare_stretch_april_13_run_3best.h5
+0.9626
+
+ from 0.96264 to 0.96467, saving model to my_model_c_compare_stretch_april_13_run_3best.h5
+0.9647
+
+ from 0.96467 to 0.96699, saving model to my_model_c_compare_stretch_april_13_run_3best.h5
+0.9670
+
+ from 0.96699 to 0.96757, saving model to my_model_c_compare_stretch_april_13_run_3best.h5
+0.9676
+
+improve
+0.9649
+
+ from 0.96757 to 0.96852, saving model to my_model_c_compare_stretch_april_13_run_3best.h5
+0.9685
+
+improve
+0.9682
+
+improve
+0.9598
+
+ from 0.96852 to 0.97236, saving model to my_model_c_compare_stretch_april_13_run_3best.h5
+0.9724
+
+improve
+0.9660
+
+ from 0.97236 to 0.97301, saving model to my_model_c_compare_stretch_april_13_run_3best.h5
+0.9730
+
+improve
+0.9699
+
+improve
+0.9703
+
+ from 0.97301 to 0.97439, saving model to my_model_c_compare_stretch_april_13_run_3best.h5
+0.9744
+
+improve
+0.9679
+
+improve
+0.9733
+
+improve
+0.9713
+
+improve
+0.9713
+
+improve
+0.9713
+
+ from 0.97439 to 0.97526, saving model to my_model_c_compare_stretch_april_13_run_3best.h5
+0.9753
+
+improve
+0.9727
+
+improve
+0.9720
+
+improve
+0.9735
+
+improve
+0.9738
+
+improve
+0.9747
+
+ from 0.97526 to 0.97548, saving model to my_model_c_compare_stretch_april_13_run_3best.h5
+0.9755
+
+improve
+0.9724
+
+improve
+0.9748
+
+improve
+0.9753
+
+improve
+0.9691
+
+improve
+0.9729
+
+improve
+0.9735
+
+improve
+0.9749
+
+improve
+0.9748
+
+ from 0.97548 to 0.97606, saving model to my_model_c_compare_stretch_april_13_run_3best.h5
+0.9761
+
+improve
+0.9739
+
+ from 0.97606 to 0.97642, saving model to my_model_c_compare_stretch_april_13_run_3best.h5
+0.9764
+
+improve
+0.9691
+
+improve
+0.9748
+
+improve
+0.9763
+
+ from 0.97642 to 0.97650, saving model to my_model_c_compare_stretch_april_13_run_3best.h5
+0.9765
+
+ from 0.97650 to 0.97838, saving model to my_model_c_compare_stretch_april_13_run_3best.h5
+0.9784
+
+improve
+0.9742
+
+improve
+0.9753
+79772.605989

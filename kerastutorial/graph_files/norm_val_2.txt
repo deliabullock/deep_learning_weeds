@@ -1,0 +1,151 @@
+
+ from -inf to 0.83299, saving model to my_model_c_with_64_only_900_decay_feb_25_1best.h5
+0.8330
+
+ from 0.83299 to 0.89882, saving model to my_model_c_with_64_only_900_decay_feb_25_1best.h5
+0.8988
+
+ from 0.89882 to 0.89927, saving model to my_model_c_with_64_only_900_decay_feb_25_1best.h5
+0.8993
+
+ from 0.89927 to 0.93451, saving model to my_model_c_with_64_only_900_decay_feb_25_1best.h5
+0.9345
+
+ from 0.93451 to 0.94803, saving model to my_model_c_with_64_only_900_decay_feb_25_1best.h5
+0.9480
+
+ from 0.94803 to 0.94883, saving model to my_model_c_with_64_only_900_decay_feb_25_1best.h5
+0.9488
+
+ from 0.94883 to 0.94999, saving model to my_model_c_with_64_only_900_decay_feb_25_1best.h5
+0.9500
+
+improve
+0.9469
+
+ from 0.94999 to 0.95668, saving model to my_model_c_with_64_only_900_decay_feb_25_1best.h5
+0.9567
+
+improve
+0.9404
+
+ from 0.95668 to 0.96191, saving model to my_model_c_with_64_only_900_decay_feb_25_1best.h5
+0.9619
+
+improve
+0.9616
+
+ from 0.96191 to 0.96249, saving model to my_model_c_with_64_only_900_decay_feb_25_1best.h5
+0.9625
+
+ from 0.96249 to 0.96402, saving model to my_model_c_with_64_only_900_decay_feb_25_1best.h5
+0.9640
+
+improve
+0.9536
+
+improve
+0.9450
+
+improve
+0.9571
+
+improve
+0.9554
+
+improve
+0.9620
+
+improve
+0.9596
+
+ from 0.96402 to 0.96722, saving model to my_model_c_with_64_only_900_decay_feb_25_1best.h5
+0.9672
+
+improve
+0.9587
+
+improve
+0.9610
+
+improve
+0.9671
+
+improve
+0.9640
+
+improve
+0.9641
+
+improve
+0.9548
+
+improve
+0.9544
+
+improve
+0.9552
+
+improve
+0.9594
+
+ from 0.96722 to 0.96867, saving model to my_model_c_with_64_only_900_decay_feb_25_1best.h5
+0.9687
+
+improve
+0.9571
+
+improve
+0.9561
+
+improve
+0.9656
+
+improve
+0.9584
+
+improve
+0.9631
+
+improve
+0.9629
+
+improve
+0.9670
+
+improve
+0.9629
+
+improve
+0.9598
+
+ from 0.96867 to 0.96889, saving model to my_model_c_with_64_only_900_decay_feb_25_1best.h5
+0.9689
+
+improve
+0.9537
+
+improve
+0.9629
+
+ from 0.96889 to 0.96954, saving model to my_model_c_with_64_only_900_decay_feb_25_1best.h5
+0.9695
+
+improve
+0.9562
+
+improve
+0.9610
+
+improve
+0.9583
+
+improve
+0.9638
+
+improve
+0.9554
+
+improve
+0.9633
+79057.2615929

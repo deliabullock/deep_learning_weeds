@@ -1,0 +1,150 @@
+
+ from -inf to 0.92633, saving model to my_model_c_compare_stretch_april_12_run_2best.h5
+0.9263
+
+ from 0.92633 to 0.93972, saving model to my_model_c_compare_stretch_april_12_run_2best.h5
+0.9397
+
+ from 0.93972 to 0.94794, saving model to my_model_c_compare_stretch_april_12_run_2best.h5
+0.9479
+
+improve
+0.9457
+
+ from 0.94794 to 0.95626, saving model to my_model_c_compare_stretch_april_12_run_2best.h5
+0.9563
+
+improve
+0.9380
+
+improve
+0.9436
+
+ from 0.95626 to 0.95756, saving model to my_model_c_compare_stretch_april_12_run_2best.h5
+0.9576
+
+ from 0.95756 to 0.96322, saving model to my_model_c_compare_stretch_april_12_run_2best.h5
+0.9632
+
+ from 0.96322 to 0.96416, saving model to my_model_c_compare_stretch_april_12_run_2best.h5
+0.9642
+
+ from 0.96416 to 0.96765, saving model to my_model_c_compare_stretch_april_12_run_2best.h5
+0.9676
+
+ from 0.96765 to 0.96968, saving model to my_model_c_compare_stretch_april_12_run_2best.h5
+0.9697
+
+ from 0.96968 to 0.97077, saving model to my_model_c_compare_stretch_april_12_run_2best.h5
+0.9708
+
+ from 0.97077 to 0.97084, saving model to my_model_c_compare_stretch_april_12_run_2best.h5
+0.9708
+
+improve
+0.9689
+
+ from 0.97084 to 0.97265, saving model to my_model_c_compare_stretch_april_12_run_2best.h5
+0.9727
+
+improve
+0.9696
+
+improve
+0.9713
+
+improve
+0.9720
+
+improve
+0.9699
+
+ from 0.97265 to 0.97280, saving model to my_model_c_compare_stretch_april_12_run_2best.h5
+0.9728
+
+improve
+0.9701
+
+improve
+0.9708
+
+ from 0.97280 to 0.97294, saving model to my_model_c_compare_stretch_april_12_run_2best.h5
+0.9729
+
+improve
+0.9712
+
+ from 0.97294 to 0.97534, saving model to my_model_c_compare_stretch_april_12_run_2best.h5
+0.9753
+
+improve
+0.9724
+
+improve
+0.9729
+
+improve
+0.9723
+
+improve
+0.9710
+
+improve
+0.9750
+
+improve
+0.9697
+
+improve
+0.9729
+
+ from 0.97534 to 0.97541, saving model to my_model_c_compare_stretch_april_12_run_2best.h5
+0.9754
+
+improve
+0.9732
+
+improve
+0.9750
+
+improve
+0.9721
+
+improve
+0.9720
+
+improve
+0.9737
+
+improve
+0.9731
+
+improve
+0.9742
+
+improve
+0.9702
+
+improve
+0.9751
+
+improve
+0.9720
+
+improve
+0.9682
+
+improve
+0.9716
+
+improve
+0.9716
+
+improve
+0.9713
+
+improve
+0.9723
+
+ from 0.97541 to 0.97541, saving model to my_model_c_compare_stretch_april_12_run_2best.h5
+0.9754
