@@ -1,0 +1,151 @@
+
+ from -inf to 0.87123, saving model to my_model_c_compare_stretch_april_13_run_3best.h5
+0.8712
+
+ from 0.87123 to 0.89840, saving model to my_model_c_compare_stretch_april_13_run_3best.h5
+0.8984
+
+ from 0.89840 to 0.93280, saving model to my_model_c_compare_stretch_april_13_run_3best.h5
+0.9328
+
+improve
+0.9035
+
+improve
+0.9185
+
+ from 0.93280 to 0.95246, saving model to my_model_c_compare_stretch_april_13_run_3best.h5
+0.9525
+
+ from 0.95246 to 0.95871, saving model to my_model_c_compare_stretch_april_13_run_3best.h5
+0.9587
+
+improve
+0.9578
+
+ from 0.95871 to 0.95936, saving model to my_model_c_compare_stretch_april_13_run_3best.h5
+0.9594
+
+ from 0.95936 to 0.96125, saving model to my_model_c_compare_stretch_april_13_run_3best.h5
+0.9612
+
+ from 0.96125 to 0.96480, saving model to my_model_c_compare_stretch_april_13_run_3best.h5
+0.9648
+
+improve
+0.9576
+
+ from 0.96480 to 0.96524, saving model to my_model_c_compare_stretch_april_13_run_3best.h5
+0.9652
+
+improve
+0.9634
+
+ from 0.96524 to 0.96633, saving model to my_model_c_compare_stretch_april_13_run_3best.h5
+0.9663
+
+improve
+0.9597
+
+improve
+0.9651
+
+improve
+0.9638
+
+ from 0.96633 to 0.96814, saving model to my_model_c_compare_stretch_april_13_run_3best.h5
+0.9681
+
+improve
+0.9565
+
+ from 0.96814 to 0.96894, saving model to my_model_c_compare_stretch_april_13_run_3best.h5
+0.9689
+
+improve
+0.9671
+
+ from 0.96894 to 0.96981, saving model to my_model_c_compare_stretch_april_13_run_3best.h5
+0.9698
+
+ from 0.96981 to 0.96995, saving model to my_model_c_compare_stretch_april_13_run_3best.h5
+0.9700
+
+improve
+0.9693
+
+ from 0.96995 to 0.97097, saving model to my_model_c_compare_stretch_april_13_run_3best.h5
+0.9710
+
+improve
+0.9681
+
+improve
+0.9697
+
+improve
+0.9704
+
+improve
+0.9641
+
+improve
+0.9654
+
+improve
+0.9692
+
+improve
+0.9660
+
+improve
+0.9692
+
+improve
+0.9702
+
+improve
+0.9627
+
+improve
+0.9698
+
+improve
+0.9700
+
+improve
+0.9692
+
+improve
+0.9652
+
+improve
+0.9654
+
+improve
+0.9673
+
+improve
+0.9644
+
+improve
+0.9658
+
+improve
+0.9695
+
+improve
+0.9653
+
+improve
+0.9682
+
+improve
+0.9667
+
+improve
+0.9614
+
+improve
+0.9672
+77604.977361
